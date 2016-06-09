@@ -2,8 +2,8 @@
 
 namespace Kantaria\Models\Map;
 
-use Kantaria\Models\User;
-use Kantaria\Models\UserQuery;
+use Kantaria\Models\Character;
+use Kantaria\Models\CharacterQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'user' table.
+ * This class defines the structure of the 'character' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class UserTableMap extends TableMap
+class CharacterTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class UserTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Kantaria.Models.Map.UserTableMap';
+    const CLASS_NAME = 'Kantaria.Models.Map.CharacterTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class UserTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'user';
+    const TABLE_NAME = 'character';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Kantaria\\Models\\User';
+    const OM_CLASS = '\\Kantaria\\Models\\Character';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Kantaria.Models.User';
+    const CLASS_DEFAULT = 'Kantaria.Models.Character';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 10;
 
     /**
      * The number of lazy-loaded columns
@@ -69,22 +69,57 @@ class UserTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'user.id';
+    const COL_ID = 'character.id';
 
     /**
-     * the column name for the username field
+     * the column name for the user_id field
      */
-    const COL_USERNAME = 'user.username';
+    const COL_USER_ID = 'character.user_id';
 
     /**
-     * the column name for the password field
+     * the column name for the first_name field
      */
-    const COL_PASSWORD = 'user.password';
+    const COL_FIRST_NAME = 'character.first_name';
+
+    /**
+     * the column name for the last_name field
+     */
+    const COL_LAST_NAME = 'character.last_name';
+
+    /**
+     * the column name for the health field
+     */
+    const COL_HEALTH = 'character.health';
+
+    /**
+     * the column name for the oxygen field
+     */
+    const COL_OXYGEN = 'character.oxygen';
+
+    /**
+     * the column name for the food field
+     */
+    const COL_FOOD = 'character.food';
+
+    /**
+     * the column name for the posx field
+     */
+    const COL_POSX = 'character.posx';
+
+    /**
+     * the column name for the posy field
+     */
+    const COL_POSY = 'character.posy';
+
+    /**
+     * the column name for the posz field
+     */
+    const COL_POSZ = 'character.posz';
 
     /**
      * The default string format for model objects of the related table
@@ -98,11 +133,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Username', 'Password', ),
-        self::TYPE_CAMELNAME     => array('id', 'username', 'password', ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_USERNAME, UserTableMap::COL_PASSWORD, ),
-        self::TYPE_FIELDNAME     => array('id', 'username', 'password', ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Id', 'UserId', 'FirstName', 'LastName', 'Health', 'Oxygen', 'Food', 'Posx', 'Posy', 'Posz', ),
+        self::TYPE_CAMELNAME     => array('id', 'userId', 'firstName', 'lastName', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
+        self::TYPE_COLNAME       => array(CharacterTableMap::COL_ID, CharacterTableMap::COL_USER_ID, CharacterTableMap::COL_FIRST_NAME, CharacterTableMap::COL_LAST_NAME, CharacterTableMap::COL_HEALTH, CharacterTableMap::COL_OXYGEN, CharacterTableMap::COL_FOOD, CharacterTableMap::COL_POSX, CharacterTableMap::COL_POSY, CharacterTableMap::COL_POSZ, ),
+        self::TYPE_FIELDNAME     => array('id', 'user_id', 'first_name', 'last_name', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -112,11 +147,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Username' => 1, 'Password' => 2, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'username' => 1, 'password' => 2, ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_USERNAME => 1, UserTableMap::COL_PASSWORD => 2, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'username' => 1, 'password' => 2, ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'FirstName' => 2, 'LastName' => 3, 'Health' => 4, 'Oxygen' => 5, 'Food' => 6, 'Posx' => 7, 'Posy' => 8, 'Posz' => 9, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'firstName' => 2, 'lastName' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
+        self::TYPE_COLNAME       => array(CharacterTableMap::COL_ID => 0, CharacterTableMap::COL_USER_ID => 1, CharacterTableMap::COL_FIRST_NAME => 2, CharacterTableMap::COL_LAST_NAME => 3, CharacterTableMap::COL_HEALTH => 4, CharacterTableMap::COL_OXYGEN => 5, CharacterTableMap::COL_FOOD => 6, CharacterTableMap::COL_POSX => 7, CharacterTableMap::COL_POSY => 8, CharacterTableMap::COL_POSZ => 9, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'first_name' => 2, 'last_name' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -129,16 +164,23 @@ class UserTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('user');
-        $this->setPhpName('User');
+        $this->setName('character');
+        $this->setPhpName('Character');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Kantaria\\Models\\User');
+        $this->setClassName('\\Kantaria\\Models\\Character');
         $this->setPackage('Kantaria.Models');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('username', 'Username', 'VARCHAR', true, 128, null);
-        $this->addColumn('password', 'Password', 'VARCHAR', true, 255, null);
+        $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'user', 'id', true, null, null);
+        $this->addColumn('first_name', 'FirstName', 'VARCHAR', true, 128, null);
+        $this->addColumn('last_name', 'LastName', 'VARCHAR', true, 128, null);
+        $this->addColumn('health', 'Health', 'INTEGER', false, null, null);
+        $this->addColumn('oxygen', 'Oxygen', 'INTEGER', false, null, null);
+        $this->addColumn('food', 'Food', 'INTEGER', false, null, null);
+        $this->addColumn('posx', 'Posx', 'INTEGER', false, null, null);
+        $this->addColumn('posy', 'Posy', 'INTEGER', false, null, null);
+        $this->addColumn('posz', 'Posz', 'INTEGER', false, null, null);
     } // initialize()
 
     /**
@@ -146,13 +188,20 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Character', '\\Kantaria\\Models\\Character', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('User', '\\Kantaria\\Models\\User', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':user_id',
     1 => ':id',
   ),
-), null, null, 'Characters', false);
+), null, null, null, false);
+        $this->addRelation('Inventory', '\\Kantaria\\Models\\Inventory', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':character_id',
+    1 => ':id',
+  ),
+), null, null, 'Inventories', false);
     } // buildRelations()
 
     /**
@@ -164,7 +213,7 @@ class UserTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('usernameNotNull' => array ('column' => 'username','validator' => 'NotBlank',), 'usernameLength' => array ('column' => 'username','validator' => 'Length','options' => array ('min' => 6,'max' => 128,),), 'usernameUnique' => array ('column' => 'username','validator' => 'Unique','options' => array ('message' => 'Username already in use',),), 'passwordNotNull' => array ('column' => 'password','validator' => 'NotBlank',), 'passwordLength' => array ('column' => 'password','validator' => 'Length','options' => array ('min' => 6,'max' => 72,),), ),
+            'validate' => array('userIdNotNull' => array ('column' => 'username','validator' => 'NotNull',), 'firstNameNotNull' => array ('column' => 'first_name','validator' => 'NotNull',), 'lastNameNotNull' => array ('column' => 'last_name','validator' => 'NotNull',), ),
         );
     } // getBehaviors()
 
@@ -225,7 +274,7 @@ class UserTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? UserTableMap::CLASS_DEFAULT : UserTableMap::OM_CLASS;
+        return $withPrefix ? CharacterTableMap::CLASS_DEFAULT : CharacterTableMap::OM_CLASS;
     }
 
     /**
@@ -239,22 +288,22 @@ class UserTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (User object, last column rank)
+     * @return array           (Character object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = UserTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = UserTableMap::getInstanceFromPool($key))) {
+        $key = CharacterTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = CharacterTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + UserTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + CharacterTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = UserTableMap::OM_CLASS;
-            /** @var User $obj */
+            $cls = CharacterTableMap::OM_CLASS;
+            /** @var Character $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            UserTableMap::addInstanceToPool($obj, $key);
+            CharacterTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -277,18 +326,18 @@ class UserTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = UserTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = UserTableMap::getInstanceFromPool($key))) {
+            $key = CharacterTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = CharacterTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var User $obj */
+                /** @var Character $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                UserTableMap::addInstanceToPool($obj, $key);
+                CharacterTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -309,13 +358,27 @@ class UserTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(UserTableMap::COL_ID);
-            $criteria->addSelectColumn(UserTableMap::COL_USERNAME);
-            $criteria->addSelectColumn(UserTableMap::COL_PASSWORD);
+            $criteria->addSelectColumn(CharacterTableMap::COL_ID);
+            $criteria->addSelectColumn(CharacterTableMap::COL_USER_ID);
+            $criteria->addSelectColumn(CharacterTableMap::COL_FIRST_NAME);
+            $criteria->addSelectColumn(CharacterTableMap::COL_LAST_NAME);
+            $criteria->addSelectColumn(CharacterTableMap::COL_HEALTH);
+            $criteria->addSelectColumn(CharacterTableMap::COL_OXYGEN);
+            $criteria->addSelectColumn(CharacterTableMap::COL_FOOD);
+            $criteria->addSelectColumn(CharacterTableMap::COL_POSX);
+            $criteria->addSelectColumn(CharacterTableMap::COL_POSY);
+            $criteria->addSelectColumn(CharacterTableMap::COL_POSZ);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.username');
-            $criteria->addSelectColumn($alias . '.password');
+            $criteria->addSelectColumn($alias . '.user_id');
+            $criteria->addSelectColumn($alias . '.first_name');
+            $criteria->addSelectColumn($alias . '.last_name');
+            $criteria->addSelectColumn($alias . '.health');
+            $criteria->addSelectColumn($alias . '.oxygen');
+            $criteria->addSelectColumn($alias . '.food');
+            $criteria->addSelectColumn($alias . '.posx');
+            $criteria->addSelectColumn($alias . '.posy');
+            $criteria->addSelectColumn($alias . '.posz');
         }
     }
 
@@ -328,7 +391,7 @@ class UserTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(UserTableMap::DATABASE_NAME)->getTable(UserTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(CharacterTableMap::DATABASE_NAME)->getTable(CharacterTableMap::TABLE_NAME);
     }
 
     /**
@@ -336,16 +399,16 @@ class UserTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UserTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(UserTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new UserTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(CharacterTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(CharacterTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new CharacterTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a User or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Character or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or User object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Character object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -356,27 +419,27 @@ class UserTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Kantaria\Models\User) { // it's a model object
+        } elseif ($values instanceof \Kantaria\Models\Character) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(UserTableMap::DATABASE_NAME);
-            $criteria->add(UserTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(CharacterTableMap::DATABASE_NAME);
+            $criteria->add(CharacterTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = UserQuery::create()->mergeWith($criteria);
+        $query = CharacterQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            UserTableMap::clearInstancePool();
+            CharacterTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                UserTableMap::removeInstanceFromPool($singleval);
+                CharacterTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -384,20 +447,20 @@ class UserTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the user table.
+     * Deletes all rows from the character table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return UserQuery::create()->doDeleteAll($con);
+        return CharacterQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a User or Criteria object.
+     * Performs an INSERT on the database, given a Character or Criteria object.
      *
-     * @param mixed               $criteria Criteria or User object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Character object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -406,22 +469,22 @@ class UserTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from User object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Character object
         }
 
-        if ($criteria->containsKey(UserTableMap::COL_ID) && $criteria->keyContainsValue(UserTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.UserTableMap::COL_ID.')');
+        if ($criteria->containsKey(CharacterTableMap::COL_ID) && $criteria->keyContainsValue(CharacterTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CharacterTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = UserQuery::create()->mergeWith($criteria);
+        $query = CharacterQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -430,7 +493,7 @@ class UserTableMap extends TableMap
         });
     }
 
-} // UserTableMap
+} // CharacterTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-UserTableMap::buildTableMap();
+CharacterTableMap::buildTableMap();

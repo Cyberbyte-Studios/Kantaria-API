@@ -17,3 +17,7 @@ $container['logger'] = function ($c) {
 $container['UserController'] = function($container) {
     return new UserController($container);
 };
+
+$container['CharacterController'] = function($container) {
+    return new CharacterController($container);
+};

@@ -36,17 +36,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildUserQuery leftJoinCharacters($relationAlias = null) Adds a LEFT JOIN clause to the query using the Characters relation
- * @method     ChildUserQuery rightJoinCharacters($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Characters relation
- * @method     ChildUserQuery innerJoinCharacters($relationAlias = null) Adds a INNER JOIN clause to the query using the Characters relation
+ * @method     ChildUserQuery leftJoinCharacter($relationAlias = null) Adds a LEFT JOIN clause to the query using the Character relation
+ * @method     ChildUserQuery rightJoinCharacter($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Character relation
+ * @method     ChildUserQuery innerJoinCharacter($relationAlias = null) Adds a INNER JOIN clause to the query using the Character relation
  *
- * @method     ChildUserQuery joinWithCharacters($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Characters relation
+ * @method     ChildUserQuery joinWithCharacter($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Character relation
  *
- * @method     ChildUserQuery leftJoinWithCharacters() Adds a LEFT JOIN clause and with to the query using the Characters relation
- * @method     ChildUserQuery rightJoinWithCharacters() Adds a RIGHT JOIN clause and with to the query using the Characters relation
- * @method     ChildUserQuery innerJoinWithCharacters() Adds a INNER JOIN clause and with to the query using the Characters relation
+ * @method     ChildUserQuery leftJoinWithCharacter() Adds a LEFT JOIN clause and with to the query using the Character relation
+ * @method     ChildUserQuery rightJoinWithCharacter() Adds a RIGHT JOIN clause and with to the query using the Character relation
+ * @method     ChildUserQuery innerJoinWithCharacter() Adds a INNER JOIN clause and with to the query using the Character relation
  *
- * @method     \Kantaria\Models\CharactersQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Kantaria\Models\CharacterQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildUser findOne(ConnectionInterface $con = null) Return the first ChildUser matching the query
  * @method     ChildUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUser matching the query, or a new ChildUser object populated from the query conditions when no match is found
@@ -354,40 +354,40 @@ abstract class UserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Kantaria\Models\Characters object
+     * Filter the query by a related \Kantaria\Models\Character object
      *
-     * @param \Kantaria\Models\Characters|ObjectCollection $characters the related object to use as filter
+     * @param \Kantaria\Models\Character|ObjectCollection $character the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildUserQuery The current query, for fluid interface
      */
-    public function filterByCharacters($characters, $comparison = null)
+    public function filterByCharacter($character, $comparison = null)
     {
-        if ($characters instanceof \Kantaria\Models\Characters) {
+        if ($character instanceof \Kantaria\Models\Character) {
             return $this
-                ->addUsingAlias(UserTableMap::COL_ID, $characters->getUserId(), $comparison);
-        } elseif ($characters instanceof ObjectCollection) {
+                ->addUsingAlias(UserTableMap::COL_ID, $character->getUserId(), $comparison);
+        } elseif ($character instanceof ObjectCollection) {
             return $this
-                ->useCharactersQuery()
-                ->filterByPrimaryKeys($characters->getPrimaryKeys())
+                ->useCharacterQuery()
+                ->filterByPrimaryKeys($character->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByCharacters() only accepts arguments of type \Kantaria\Models\Characters or Collection');
+            throw new PropelException('filterByCharacter() only accepts arguments of type \Kantaria\Models\Character or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Characters relation
+     * Adds a JOIN clause to the query using the Character relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildUserQuery The current query, for fluid interface
      */
-    public function joinCharacters($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinCharacter($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Characters');
+        $relationMap = $tableMap->getRelation('Character');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -402,14 +402,14 @@ abstract class UserQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Characters');
+            $this->addJoinObject($join, 'Character');
         }
 
         return $this;
     }
 
     /**
-     * Use the Characters relation Characters object
+     * Use the Character relation Character object
      *
      * @see useQuery()
      *
@@ -417,13 +417,13 @@ abstract class UserQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \Kantaria\Models\CharactersQuery A secondary query class using the current class as primary query
+     * @return \Kantaria\Models\CharacterQuery A secondary query class using the current class as primary query
      */
-    public function useCharactersQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useCharacterQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinCharacters($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Characters', '\Kantaria\Models\CharactersQuery');
+            ->joinCharacter($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Character', '\Kantaria\Models\CharacterQuery');
     }
 
     /**

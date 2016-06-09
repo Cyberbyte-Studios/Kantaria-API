@@ -6,10 +6,12 @@ use \Exception;
 use \PDO;
 use Kantaria\Models\Character as ChildCharacter;
 use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
+use Kantaria\Models\Inventory as ChildInventory;
+use Kantaria\Models\InventoryQuery as ChildInventoryQuery;
 use Kantaria\Models\User as ChildUser;
 use Kantaria\Models\UserQuery as ChildUserQuery;
 use Kantaria\Models\Map\CharacterTableMap;
-use Kantaria\Models\Map\UserTableMap;
+use Kantaria\Models\Map\InventoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -22,12 +24,10 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
-use Propel\Runtime\Validator\Constraints\Unique;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Validator\ConstraintValidatorFactory;
 use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Context\ExecutionContextFactory;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
@@ -36,18 +36,18 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Base class that represents a row from the 'user' table.
+ * Base class that represents a row from the 'character' table.
  *
  *
  *
  * @package    propel.generator.Kantaria.Models.Base
  */
-abstract class User implements ActiveRecordInterface
+abstract class Character implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Kantaria\\Models\\Map\\UserTableMap';
+    const TABLE_MAP = '\\Kantaria\\Models\\Map\\CharacterTableMap';
 
 
     /**
@@ -84,24 +84,78 @@ abstract class User implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the username field.
+     * The value for the user_id field.
+     *
+     * @var        int
+     */
+    protected $user_id;
+
+    /**
+     * The value for the first_name field.
      *
      * @var        string
      */
-    protected $username;
+    protected $first_name;
 
     /**
-     * The value for the password field.
+     * The value for the last_name field.
      *
      * @var        string
      */
-    protected $password;
+    protected $last_name;
 
     /**
-     * @var        ObjectCollection|ChildCharacter[] Collection to store aggregation of ChildCharacter objects.
+     * The value for the health field.
+     *
+     * @var        int
      */
-    protected $collCharacters;
-    protected $collCharactersPartial;
+    protected $health;
+
+    /**
+     * The value for the oxygen field.
+     *
+     * @var        int
+     */
+    protected $oxygen;
+
+    /**
+     * The value for the food field.
+     *
+     * @var        int
+     */
+    protected $food;
+
+    /**
+     * The value for the posx field.
+     *
+     * @var        int
+     */
+    protected $posx;
+
+    /**
+     * The value for the posy field.
+     *
+     * @var        int
+     */
+    protected $posy;
+
+    /**
+     * The value for the posz field.
+     *
+     * @var        int
+     */
+    protected $posz;
+
+    /**
+     * @var        ChildUser
+     */
+    protected $aUser;
+
+    /**
+     * @var        ObjectCollection|ChildInventory[] Collection to store aggregation of ChildInventory objects.
+     */
+    protected $collInventories;
+    protected $collInventoriesPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -130,12 +184,12 @@ abstract class User implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildCharacter[]
+     * @var ObjectCollection|ChildInventory[]
      */
-    protected $charactersScheduledForDeletion = null;
+    protected $inventoriesScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Kantaria\Models\Base\User object.
+     * Initializes internal state of Kantaria\Models\Base\Character object.
      */
     public function __construct()
     {
@@ -230,9 +284,9 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>User</code> instance.  If
-     * <code>obj</code> is an instance of <code>User</code>, delegates to
-     * <code>equals(User)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Character</code> instance.  If
+     * <code>obj</code> is an instance of <code>Character</code>, delegates to
+     * <code>equals(Character)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -298,7 +352,7 @@ abstract class User implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|User The current object, for fluid interface
+     * @return $this|Character The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -370,30 +424,100 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * Get the [username] column value.
+     * Get the [user_id] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getUsername()
+    public function getUserId()
     {
-        return $this->username;
+        return $this->user_id;
     }
 
     /**
-     * Get the [password] column value.
+     * Get the [first_name] column value.
      *
      * @return string
      */
-    public function getPassword()
+    public function getFirstName()
     {
-        return $this->password;
+        return $this->first_name;
+    }
+
+    /**
+     * Get the [last_name] column value.
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * Get the [health] column value.
+     *
+     * @return int
+     */
+    public function getHealth()
+    {
+        return $this->health;
+    }
+
+    /**
+     * Get the [oxygen] column value.
+     *
+     * @return int
+     */
+    public function getOxygen()
+    {
+        return $this->oxygen;
+    }
+
+    /**
+     * Get the [food] column value.
+     *
+     * @return int
+     */
+    public function getFood()
+    {
+        return $this->food;
+    }
+
+    /**
+     * Get the [posx] column value.
+     *
+     * @return int
+     */
+    public function getPosx()
+    {
+        return $this->posx;
+    }
+
+    /**
+     * Get the [posy] column value.
+     *
+     * @return int
+     */
+    public function getPosy()
+    {
+        return $this->posy;
+    }
+
+    /**
+     * Get the [posz] column value.
+     *
+     * @return int
+     */
+    public function getPosz()
+    {
+        return $this->posz;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\User The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -403,51 +527,195 @@ abstract class User implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[UserTableMap::COL_ID] = true;
+            $this->modifiedColumns[CharacterTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [username] column.
+     * Set the value of [user_id] column.
      *
-     * @param string $v new value
-     * @return $this|\Kantaria\Models\User The current object (for fluent API support)
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
      */
-    public function setUsername($v)
+    public function setUserId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->username !== $v) {
-            $this->username = $v;
-            $this->modifiedColumns[UserTableMap::COL_USERNAME] = true;
+        if ($this->user_id !== $v) {
+            $this->user_id = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_USER_ID] = true;
+        }
+
+        if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+            $this->aUser = null;
         }
 
         return $this;
-    } // setUsername()
+    } // setUserId()
 
     /**
-     * Set the value of [password] column.
+     * Set the value of [first_name] column.
      *
      * @param string $v new value
-     * @return $this|\Kantaria\Models\User The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
      */
-    public function setPassword($v)
+    public function setFirstName($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->password !== $v) {
-            $this->password = $v;
-            $this->modifiedColumns[UserTableMap::COL_PASSWORD] = true;
+        if ($this->first_name !== $v) {
+            $this->first_name = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_FIRST_NAME] = true;
         }
 
         return $this;
-    } // setPassword()
+    } // setFirstName()
+
+    /**
+     * Set the value of [last_name] column.
+     *
+     * @param string $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setLastName($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->last_name !== $v) {
+            $this->last_name = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_LAST_NAME] = true;
+        }
+
+        return $this;
+    } // setLastName()
+
+    /**
+     * Set the value of [health] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setHealth($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->health !== $v) {
+            $this->health = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_HEALTH] = true;
+        }
+
+        return $this;
+    } // setHealth()
+
+    /**
+     * Set the value of [oxygen] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setOxygen($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->oxygen !== $v) {
+            $this->oxygen = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_OXYGEN] = true;
+        }
+
+        return $this;
+    } // setOxygen()
+
+    /**
+     * Set the value of [food] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setFood($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->food !== $v) {
+            $this->food = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_FOOD] = true;
+        }
+
+        return $this;
+    } // setFood()
+
+    /**
+     * Set the value of [posx] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setPosx($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->posx !== $v) {
+            $this->posx = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_POSX] = true;
+        }
+
+        return $this;
+    } // setPosx()
+
+    /**
+     * Set the value of [posy] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setPosy($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->posy !== $v) {
+            $this->posy = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_POSY] = true;
+        }
+
+        return $this;
+    } // setPosy()
+
+    /**
+     * Set the value of [posz] column.
+     *
+     * @param int $v new value
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function setPosz($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->posz !== $v) {
+            $this->posz = $v;
+            $this->modifiedColumns[CharacterTableMap::COL_POSZ] = true;
+        }
+
+        return $this;
+    } // setPosz()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -485,14 +753,35 @@ abstract class User implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UserTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CharacterTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UserTableMap::translateFieldName('Username', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->username = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CharacterTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UserTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->password = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CharacterTableMap::translateFieldName('FirstName', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->first_name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : CharacterTableMap::translateFieldName('LastName', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->last_name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CharacterTableMap::translateFieldName('Health', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->health = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : CharacterTableMap::translateFieldName('Oxygen', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->oxygen = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : CharacterTableMap::translateFieldName('Food', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->food = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : CharacterTableMap::translateFieldName('Posx', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->posx = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : CharacterTableMap::translateFieldName('Posy', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->posy = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : CharacterTableMap::translateFieldName('Posz', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->posz = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -501,10 +790,10 @@ abstract class User implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 3; // 3 = UserTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = CharacterTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Kantaria\\Models\\User'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Kantaria\\Models\\Character'), 0, $e);
         }
     }
 
@@ -523,6 +812,9 @@ abstract class User implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aUser !== null && $this->user_id !== $this->aUser->getId()) {
+            $this->aUser = null;
+        }
     } // ensureConsistency
 
     /**
@@ -546,13 +838,13 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(CharacterTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildUserQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildCharacterQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -562,7 +854,8 @@ abstract class User implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collCharacters = null;
+            $this->aUser = null;
+            $this->collInventories = null;
 
         } // if (deep)
     }
@@ -573,8 +866,8 @@ abstract class User implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see User::setDeleted()
-     * @see User::isDeleted()
+     * @see Character::setDeleted()
+     * @see Character::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -583,11 +876,11 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildUserQuery::create()
+            $deleteQuery = ChildCharacterQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -618,7 +911,7 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -637,7 +930,7 @@ abstract class User implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                UserTableMap::addInstanceToPool($this);
+                CharacterTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -663,6 +956,18 @@ abstract class User implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aUser !== null) {
+                if ($this->aUser->isModified() || $this->aUser->isNew()) {
+                    $affectedRows += $this->aUser->save($con);
+                }
+                $this->setUser($this->aUser);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -674,17 +979,17 @@ abstract class User implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->charactersScheduledForDeletion !== null) {
-                if (!$this->charactersScheduledForDeletion->isEmpty()) {
-                    \Kantaria\Models\CharacterQuery::create()
-                        ->filterByPrimaryKeys($this->charactersScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->inventoriesScheduledForDeletion !== null) {
+                if (!$this->inventoriesScheduledForDeletion->isEmpty()) {
+                    \Kantaria\Models\InventoryQuery::create()
+                        ->filterByPrimaryKeys($this->inventoriesScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->charactersScheduledForDeletion = null;
+                    $this->inventoriesScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collCharacters !== null) {
-                foreach ($this->collCharacters as $referrerFK) {
+            if ($this->collInventories !== null) {
+                foreach ($this->collInventories as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -711,24 +1016,45 @@ abstract class User implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[UserTableMap::COL_ID] = true;
+        $this->modifiedColumns[CharacterTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . UserTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CharacterTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(UserTableMap::COL_ID)) {
+        if ($this->isColumnModified(CharacterTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'username';
+        if ($this->isColumnModified(CharacterTableMap::COL_USER_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'user_id';
         }
-        if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
-            $modifiedColumns[':p' . $index++]  = 'password';
+        if ($this->isColumnModified(CharacterTableMap::COL_FIRST_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'first_name';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_LAST_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'last_name';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_HEALTH)) {
+            $modifiedColumns[':p' . $index++]  = 'health';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_OXYGEN)) {
+            $modifiedColumns[':p' . $index++]  = 'oxygen';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_FOOD)) {
+            $modifiedColumns[':p' . $index++]  = 'food';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSX)) {
+            $modifiedColumns[':p' . $index++]  = 'posx';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSY)) {
+            $modifiedColumns[':p' . $index++]  = 'posy';
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSZ)) {
+            $modifiedColumns[':p' . $index++]  = 'posz';
         }
 
         $sql = sprintf(
-            'INSERT INTO user (%s) VALUES (%s)',
+            'INSERT INTO character (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -740,11 +1066,32 @@ abstract class User implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'username':
-                        $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
+                    case 'user_id':
+                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'password':
-                        $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
+                    case 'first_name':
+                        $stmt->bindValue($identifier, $this->first_name, PDO::PARAM_STR);
+                        break;
+                    case 'last_name':
+                        $stmt->bindValue($identifier, $this->last_name, PDO::PARAM_STR);
+                        break;
+                    case 'health':
+                        $stmt->bindValue($identifier, $this->health, PDO::PARAM_INT);
+                        break;
+                    case 'oxygen':
+                        $stmt->bindValue($identifier, $this->oxygen, PDO::PARAM_INT);
+                        break;
+                    case 'food':
+                        $stmt->bindValue($identifier, $this->food, PDO::PARAM_INT);
+                        break;
+                    case 'posx':
+                        $stmt->bindValue($identifier, $this->posx, PDO::PARAM_INT);
+                        break;
+                    case 'posy':
+                        $stmt->bindValue($identifier, $this->posy, PDO::PARAM_INT);
+                        break;
+                    case 'posz':
+                        $stmt->bindValue($identifier, $this->posz, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -792,7 +1139,7 @@ abstract class User implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CharacterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -812,10 +1159,31 @@ abstract class User implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getUsername();
+                return $this->getUserId();
                 break;
             case 2:
-                return $this->getPassword();
+                return $this->getFirstName();
+                break;
+            case 3:
+                return $this->getLastName();
+                break;
+            case 4:
+                return $this->getHealth();
+                break;
+            case 5:
+                return $this->getOxygen();
+                break;
+            case 6:
+                return $this->getFood();
+                break;
+            case 7:
+                return $this->getPosx();
+                break;
+            case 8:
+                return $this->getPosy();
+                break;
+            case 9:
+                return $this->getPosz();
                 break;
             default:
                 return null;
@@ -841,15 +1209,22 @@ abstract class User implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['User'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Character'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['User'][$this->hashCode()] = true;
-        $keys = UserTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Character'][$this->hashCode()] = true;
+        $keys = CharacterTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getUsername(),
-            $keys[2] => $this->getPassword(),
+            $keys[1] => $this->getUserId(),
+            $keys[2] => $this->getFirstName(),
+            $keys[3] => $this->getLastName(),
+            $keys[4] => $this->getHealth(),
+            $keys[5] => $this->getOxygen(),
+            $keys[6] => $this->getFood(),
+            $keys[7] => $this->getPosx(),
+            $keys[8] => $this->getPosy(),
+            $keys[9] => $this->getPosz(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -857,20 +1232,35 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collCharacters) {
+            if (null !== $this->aUser) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'characters';
+                        $key = 'user';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'characters';
+                        $key = 'user';
                         break;
                     default:
-                        $key = 'Characters';
+                        $key = 'User';
                 }
 
-                $result[$key] = $this->collCharacters->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->aUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collInventories) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'inventories';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'inventories';
+                        break;
+                    default:
+                        $key = 'Inventories';
+                }
+
+                $result[$key] = $this->collInventories->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -886,11 +1276,11 @@ abstract class User implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Kantaria\Models\User
+     * @return $this|\Kantaria\Models\Character
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = UserTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = CharacterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -901,7 +1291,7 @@ abstract class User implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Kantaria\Models\User
+     * @return $this|\Kantaria\Models\Character
      */
     public function setByPosition($pos, $value)
     {
@@ -910,10 +1300,31 @@ abstract class User implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setUsername($value);
+                $this->setUserId($value);
                 break;
             case 2:
-                $this->setPassword($value);
+                $this->setFirstName($value);
+                break;
+            case 3:
+                $this->setLastName($value);
+                break;
+            case 4:
+                $this->setHealth($value);
+                break;
+            case 5:
+                $this->setOxygen($value);
+                break;
+            case 6:
+                $this->setFood($value);
+                break;
+            case 7:
+                $this->setPosx($value);
+                break;
+            case 8:
+                $this->setPosy($value);
+                break;
+            case 9:
+                $this->setPosz($value);
                 break;
         } // switch()
 
@@ -939,16 +1350,37 @@ abstract class User implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = UserTableMap::getFieldNames($keyType);
+        $keys = CharacterTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setUsername($arr[$keys[1]]);
+            $this->setUserId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setPassword($arr[$keys[2]]);
+            $this->setFirstName($arr[$keys[2]]);
+        }
+        if (array_key_exists($keys[3], $arr)) {
+            $this->setLastName($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setHealth($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setOxygen($arr[$keys[5]]);
+        }
+        if (array_key_exists($keys[6], $arr)) {
+            $this->setFood($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setPosx($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setPosy($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setPosz($arr[$keys[9]]);
         }
     }
 
@@ -969,7 +1401,7 @@ abstract class User implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Kantaria\Models\User The current object, for fluid interface
+     * @return $this|\Kantaria\Models\Character The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -989,16 +1421,37 @@ abstract class User implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(UserTableMap::DATABASE_NAME);
+        $criteria = new Criteria(CharacterTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(UserTableMap::COL_ID)) {
-            $criteria->add(UserTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(CharacterTableMap::COL_ID)) {
+            $criteria->add(CharacterTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
-            $criteria->add(UserTableMap::COL_USERNAME, $this->username);
+        if ($this->isColumnModified(CharacterTableMap::COL_USER_ID)) {
+            $criteria->add(CharacterTableMap::COL_USER_ID, $this->user_id);
         }
-        if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
-            $criteria->add(UserTableMap::COL_PASSWORD, $this->password);
+        if ($this->isColumnModified(CharacterTableMap::COL_FIRST_NAME)) {
+            $criteria->add(CharacterTableMap::COL_FIRST_NAME, $this->first_name);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_LAST_NAME)) {
+            $criteria->add(CharacterTableMap::COL_LAST_NAME, $this->last_name);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_HEALTH)) {
+            $criteria->add(CharacterTableMap::COL_HEALTH, $this->health);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_OXYGEN)) {
+            $criteria->add(CharacterTableMap::COL_OXYGEN, $this->oxygen);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_FOOD)) {
+            $criteria->add(CharacterTableMap::COL_FOOD, $this->food);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSX)) {
+            $criteria->add(CharacterTableMap::COL_POSX, $this->posx);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSY)) {
+            $criteria->add(CharacterTableMap::COL_POSY, $this->posy);
+        }
+        if ($this->isColumnModified(CharacterTableMap::COL_POSZ)) {
+            $criteria->add(CharacterTableMap::COL_POSZ, $this->posz);
         }
 
         return $criteria;
@@ -1016,8 +1469,8 @@ abstract class User implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildUserQuery::create();
-        $criteria->add(UserTableMap::COL_ID, $this->id);
+        $criteria = ChildCharacterQuery::create();
+        $criteria->add(CharacterTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1079,24 +1532,31 @@ abstract class User implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Kantaria\Models\User (or compatible) type.
+     * @param      object $copyObj An object of \Kantaria\Models\Character (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setUsername($this->getUsername());
-        $copyObj->setPassword($this->getPassword());
+        $copyObj->setUserId($this->getUserId());
+        $copyObj->setFirstName($this->getFirstName());
+        $copyObj->setLastName($this->getLastName());
+        $copyObj->setHealth($this->getHealth());
+        $copyObj->setOxygen($this->getOxygen());
+        $copyObj->setFood($this->getFood());
+        $copyObj->setPosx($this->getPosx());
+        $copyObj->setPosy($this->getPosy());
+        $copyObj->setPosz($this->getPosz());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getCharacters() as $relObj) {
+            foreach ($this->getInventories() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addCharacter($relObj->copy($deepCopy));
+                    $copyObj->addInventory($relObj->copy($deepCopy));
                 }
             }
 
@@ -1117,7 +1577,7 @@ abstract class User implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Kantaria\Models\User Clone of current object.
+     * @return \Kantaria\Models\Character Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1128,6 +1588,57 @@ abstract class User implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+    /**
+     * Declares an association between this object and a ChildUser object.
+     *
+     * @param  ChildUser $v
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUser(ChildUser $v = null)
+    {
+        if ($v === null) {
+            $this->setUserId(NULL);
+        } else {
+            $this->setUserId($v->getId());
+        }
+
+        $this->aUser = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUser object, it will not be re-added.
+        if ($v !== null) {
+            $v->addCharacter($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUser object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUser The associated ChildUser object.
+     * @throws PropelException
+     */
+    public function getUser(ConnectionInterface $con = null)
+    {
+        if ($this->aUser === null && ($this->user_id !== null)) {
+            $this->aUser = ChildUserQuery::create()->findPk($this->user_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUser->addCharacters($this);
+             */
+        }
+
+        return $this->aUser;
     }
 
 
@@ -1141,37 +1652,37 @@ abstract class User implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('Character' == $relationName) {
-            return $this->initCharacters();
+        if ('Inventory' == $relationName) {
+            return $this->initInventories();
         }
     }
 
     /**
-     * Clears out the collCharacters collection
+     * Clears out the collInventories collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addCharacters()
+     * @see        addInventories()
      */
-    public function clearCharacters()
+    public function clearInventories()
     {
-        $this->collCharacters = null; // important to set this to NULL since that means it is uninitialized
+        $this->collInventories = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collCharacters collection loaded partially.
+     * Reset is the collInventories collection loaded partially.
      */
-    public function resetPartialCharacters($v = true)
+    public function resetPartialInventories($v = true)
     {
-        $this->collCharactersPartial = $v;
+        $this->collInventoriesPartial = $v;
     }
 
     /**
-     * Initializes the collCharacters collection.
+     * Initializes the collInventories collection.
      *
-     * By default this just sets the collCharacters collection to an empty array (like clearcollCharacters());
+     * By default this just sets the collInventories collection to an empty array (like clearcollInventories());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1180,162 +1691,162 @@ abstract class User implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initCharacters($overrideExisting = true)
+    public function initInventories($overrideExisting = true)
     {
-        if (null !== $this->collCharacters && !$overrideExisting) {
+        if (null !== $this->collInventories && !$overrideExisting) {
             return;
         }
 
-        $collectionClassName = CharacterTableMap::getTableMap()->getCollectionClassName();
+        $collectionClassName = InventoryTableMap::getTableMap()->getCollectionClassName();
 
-        $this->collCharacters = new $collectionClassName;
-        $this->collCharacters->setModel('\Kantaria\Models\Character');
+        $this->collInventories = new $collectionClassName;
+        $this->collInventories->setModel('\Kantaria\Models\Inventory');
     }
 
     /**
-     * Gets an array of ChildCharacter objects which contain a foreign key that references this object.
+     * Gets an array of ChildInventory objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildUser is new, it will return
+     * If this ChildCharacter is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildCharacter[] List of ChildCharacter objects
+     * @return ObjectCollection|ChildInventory[] List of ChildInventory objects
      * @throws PropelException
      */
-    public function getCharacters(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getInventories(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collCharactersPartial && !$this->isNew();
-        if (null === $this->collCharacters || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collCharacters) {
+        $partial = $this->collInventoriesPartial && !$this->isNew();
+        if (null === $this->collInventories || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collInventories) {
                 // return empty collection
-                $this->initCharacters();
+                $this->initInventories();
             } else {
-                $collCharacters = ChildCharacterQuery::create(null, $criteria)
-                    ->filterByUser($this)
+                $collInventories = ChildInventoryQuery::create(null, $criteria)
+                    ->filterByCharacter($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collCharactersPartial && count($collCharacters)) {
-                        $this->initCharacters(false);
+                    if (false !== $this->collInventoriesPartial && count($collInventories)) {
+                        $this->initInventories(false);
 
-                        foreach ($collCharacters as $obj) {
-                            if (false == $this->collCharacters->contains($obj)) {
-                                $this->collCharacters->append($obj);
+                        foreach ($collInventories as $obj) {
+                            if (false == $this->collInventories->contains($obj)) {
+                                $this->collInventories->append($obj);
                             }
                         }
 
-                        $this->collCharactersPartial = true;
+                        $this->collInventoriesPartial = true;
                     }
 
-                    return $collCharacters;
+                    return $collInventories;
                 }
 
-                if ($partial && $this->collCharacters) {
-                    foreach ($this->collCharacters as $obj) {
+                if ($partial && $this->collInventories) {
+                    foreach ($this->collInventories as $obj) {
                         if ($obj->isNew()) {
-                            $collCharacters[] = $obj;
+                            $collInventories[] = $obj;
                         }
                     }
                 }
 
-                $this->collCharacters = $collCharacters;
-                $this->collCharactersPartial = false;
+                $this->collInventories = $collInventories;
+                $this->collInventoriesPartial = false;
             }
         }
 
-        return $this->collCharacters;
+        return $this->collInventories;
     }
 
     /**
-     * Sets a collection of ChildCharacter objects related by a one-to-many relationship
+     * Sets a collection of ChildInventory objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $characters A Propel collection.
+     * @param      Collection $inventories A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildUser The current object (for fluent API support)
+     * @return $this|ChildCharacter The current object (for fluent API support)
      */
-    public function setCharacters(Collection $characters, ConnectionInterface $con = null)
+    public function setInventories(Collection $inventories, ConnectionInterface $con = null)
     {
-        /** @var ChildCharacter[] $charactersToDelete */
-        $charactersToDelete = $this->getCharacters(new Criteria(), $con)->diff($characters);
+        /** @var ChildInventory[] $inventoriesToDelete */
+        $inventoriesToDelete = $this->getInventories(new Criteria(), $con)->diff($inventories);
 
 
-        $this->charactersScheduledForDeletion = $charactersToDelete;
+        $this->inventoriesScheduledForDeletion = $inventoriesToDelete;
 
-        foreach ($charactersToDelete as $characterRemoved) {
-            $characterRemoved->setUser(null);
+        foreach ($inventoriesToDelete as $inventoryRemoved) {
+            $inventoryRemoved->setCharacter(null);
         }
 
-        $this->collCharacters = null;
-        foreach ($characters as $character) {
-            $this->addCharacter($character);
+        $this->collInventories = null;
+        foreach ($inventories as $inventory) {
+            $this->addInventory($inventory);
         }
 
-        $this->collCharacters = $characters;
-        $this->collCharactersPartial = false;
+        $this->collInventories = $inventories;
+        $this->collInventoriesPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Character objects.
+     * Returns the number of related Inventory objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related Character objects.
+     * @return int             Count of related Inventory objects.
      * @throws PropelException
      */
-    public function countCharacters(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countInventories(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collCharactersPartial && !$this->isNew();
-        if (null === $this->collCharacters || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collCharacters) {
+        $partial = $this->collInventoriesPartial && !$this->isNew();
+        if (null === $this->collInventories || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collInventories) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getCharacters());
+                return count($this->getInventories());
             }
 
-            $query = ChildCharacterQuery::create(null, $criteria);
+            $query = ChildInventoryQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
 
             return $query
-                ->filterByUser($this)
+                ->filterByCharacter($this)
                 ->count($con);
         }
 
-        return count($this->collCharacters);
+        return count($this->collInventories);
     }
 
     /**
-     * Method called to associate a ChildCharacter object to this object
-     * through the ChildCharacter foreign key attribute.
+     * Method called to associate a ChildInventory object to this object
+     * through the ChildInventory foreign key attribute.
      *
-     * @param  ChildCharacter $l ChildCharacter
-     * @return $this|\Kantaria\Models\User The current object (for fluent API support)
+     * @param  ChildInventory $l ChildInventory
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
      */
-    public function addCharacter(ChildCharacter $l)
+    public function addInventory(ChildInventory $l)
     {
-        if ($this->collCharacters === null) {
-            $this->initCharacters();
-            $this->collCharactersPartial = true;
+        if ($this->collInventories === null) {
+            $this->initInventories();
+            $this->collInventoriesPartial = true;
         }
 
-        if (!$this->collCharacters->contains($l)) {
-            $this->doAddCharacter($l);
+        if (!$this->collInventories->contains($l)) {
+            $this->doAddInventory($l);
 
-            if ($this->charactersScheduledForDeletion and $this->charactersScheduledForDeletion->contains($l)) {
-                $this->charactersScheduledForDeletion->remove($this->charactersScheduledForDeletion->search($l));
+            if ($this->inventoriesScheduledForDeletion and $this->inventoriesScheduledForDeletion->contains($l)) {
+                $this->inventoriesScheduledForDeletion->remove($this->inventoriesScheduledForDeletion->search($l));
             }
         }
 
@@ -1343,29 +1854,29 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * @param ChildCharacter $character The ChildCharacter object to add.
+     * @param ChildInventory $inventory The ChildInventory object to add.
      */
-    protected function doAddCharacter(ChildCharacter $character)
+    protected function doAddInventory(ChildInventory $inventory)
     {
-        $this->collCharacters[]= $character;
-        $character->setUser($this);
+        $this->collInventories[]= $inventory;
+        $inventory->setCharacter($this);
     }
 
     /**
-     * @param  ChildCharacter $character The ChildCharacter object to remove.
-     * @return $this|ChildUser The current object (for fluent API support)
+     * @param  ChildInventory $inventory The ChildInventory object to remove.
+     * @return $this|ChildCharacter The current object (for fluent API support)
      */
-    public function removeCharacter(ChildCharacter $character)
+    public function removeInventory(ChildInventory $inventory)
     {
-        if ($this->getCharacters()->contains($character)) {
-            $pos = $this->collCharacters->search($character);
-            $this->collCharacters->remove($pos);
-            if (null === $this->charactersScheduledForDeletion) {
-                $this->charactersScheduledForDeletion = clone $this->collCharacters;
-                $this->charactersScheduledForDeletion->clear();
+        if ($this->getInventories()->contains($inventory)) {
+            $pos = $this->collInventories->search($inventory);
+            $this->collInventories->remove($pos);
+            if (null === $this->inventoriesScheduledForDeletion) {
+                $this->inventoriesScheduledForDeletion = clone $this->collInventories;
+                $this->inventoriesScheduledForDeletion->clear();
             }
-            $this->charactersScheduledForDeletion[]= clone $character;
-            $character->setUser(null);
+            $this->inventoriesScheduledForDeletion[]= clone $inventory;
+            $inventory->setCharacter(null);
         }
 
         return $this;
@@ -1378,9 +1889,19 @@ abstract class User implements ActiveRecordInterface
      */
     public function clear()
     {
+        if (null !== $this->aUser) {
+            $this->aUser->removeCharacter($this);
+        }
         $this->id = null;
-        $this->username = null;
-        $this->password = null;
+        $this->user_id = null;
+        $this->first_name = null;
+        $this->last_name = null;
+        $this->health = null;
+        $this->oxygen = null;
+        $this->food = null;
+        $this->posx = null;
+        $this->posy = null;
+        $this->posz = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1399,14 +1920,15 @@ abstract class User implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collCharacters) {
-                foreach ($this->collCharacters as $o) {
+            if ($this->collInventories) {
+                foreach ($this->collInventories as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        $this->collCharacters = null;
+        $this->collInventories = null;
+        $this->aUser = null;
     }
 
     /**
@@ -1416,7 +1938,7 @@ abstract class User implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(UserTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(CharacterTableMap::DEFAULT_STRING_FORMAT);
     }
 
     // validate behavior
@@ -1429,11 +1951,9 @@ abstract class User implements ActiveRecordInterface
      */
     static public function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('username', new NotBlank());
-        $metadata->addPropertyConstraint('username', new Length(array ('min' => 6,'max' => 128,)));
-        $metadata->addPropertyConstraint('username', new Unique(array ('message' => 'Username already in use',)));
-        $metadata->addPropertyConstraint('password', new NotBlank());
-        $metadata->addPropertyConstraint('password', new Length(array ('min' => 6,'max' => 72,)));
+        $metadata->addPropertyConstraint('username', new NotNull());
+        $metadata->addPropertyConstraint('first_name', new NotNull());
+        $metadata->addPropertyConstraint('last_name', new NotNull());
     }
 
     /**
@@ -1459,14 +1979,25 @@ abstract class User implements ActiveRecordInterface
             $this->alreadyInValidation = true;
             $retval = null;
 
+            // We call the validate method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            // If validate() method exists, the validate-behavior is configured for related object
+            if (method_exists($this->aUser, 'validate')) {
+                if (!$this->aUser->validate($validator)) {
+                    $failureMap->addAll($this->aUser->getValidationFailures());
+                }
+            }
 
             $retval = $validator->validate($this);
             if (count($retval) > 0) {
                 $failureMap->addAll($retval);
             }
 
-            if (null !== $this->collCharacters) {
-                foreach ($this->collCharacters as $referrerFK) {
+            if (null !== $this->collInventories) {
+                foreach ($this->collInventories as $referrerFK) {
                     if (method_exists($referrerFK, 'validate')) {
                         if (!$referrerFK->validate($validator)) {
                             $failureMap->addAll($referrerFK->getValidationFailures());
