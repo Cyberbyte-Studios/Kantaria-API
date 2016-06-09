@@ -1,0 +1,191 @@
+[08-Jun-2016 23:42:51 UTC] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unexpected data in output buffer. Maybe you have characters before an opening <?php tag?' in /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:552
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php(344): Slim\App->finalize(Object(Slim\Http\Response))
+#1 /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php(298): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#2 /home/ubuntu/workspace/public/index.php(34): Slim\App->run()
+#3 {main}
+  thrown in /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php on line 552
+[08-Jun-2016 23:55:53 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ubuntu/workspace/src/dependencies.php on line 20
+[08-Jun-2016 23:55:53 UTC] PHP Stack trace:
+[08-Jun-2016 23:55:53 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[08-Jun-2016 23:56:07 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ubuntu/workspace/src/dependencies.php on line 22
+[08-Jun-2016 23:56:07 UTC] PHP Stack trace:
+[08-Jun-2016 23:56:07 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[08-Jun-2016 23:58:38 UTC] PHP Fatal error:  Class 'Kantaria\Controllers\UserController' not found in /home/ubuntu/workspace/src/dependencies.php on line 18
+[08-Jun-2016 23:58:38 UTC] PHP Stack trace:
+[08-Jun-2016 23:58:38 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[08-Jun-2016 23:58:38 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[08-Jun-2016 23:58:38 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[08-Jun-2016 23:58:38 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[08-Jun-2016 23:58:38 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[08-Jun-2016 23:58:38 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[08-Jun-2016 23:58:38 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[08-Jun-2016 23:58:38 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[08-Jun-2016 23:58:38 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[08-Jun-2016 23:58:38 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[08-Jun-2016 23:58:38 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[08-Jun-2016 23:58:38 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[08-Jun-2016 23:58:38 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:17-19}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:01:26 UTC] PHP Catchable fatal error:  Argument 1 passed to Kantaria\Controllers\UserController::__construct() must be an instance of Kantaria\Controllers\ContainerInterface, null given, called in /home/ubuntu/workspace/src/dependencies.php on line 18 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 13
+[09-Jun-2016 00:01:26 UTC] PHP Stack trace:
+[09-Jun-2016 00:01:26 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:01:26 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[09-Jun-2016 00:01:26 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 00:01:26 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 00:01:26 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:01:26 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 00:01:26 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 00:01:26 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:01:26 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[09-Jun-2016 00:01:26 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[09-Jun-2016 00:01:26 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[09-Jun-2016 00:01:26 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[09-Jun-2016 00:01:26 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:17-19}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:01:26 UTC] PHP  14. Kantaria\Controllers\UserController->__construct() /home/ubuntu/workspace/src/dependencies.php:18
+[09-Jun-2016 00:02:39 UTC] PHP Fatal error:  Call to undefined function dd() in /home/ubuntu/workspace/src/dependencies.php on line 17
+[09-Jun-2016 00:02:39 UTC] PHP Stack trace:
+[09-Jun-2016 00:02:39 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:02:39 UTC] PHP   2. require() /home/ubuntu/workspace/public/index.php:25
+[09-Jun-2016 00:02:48 UTC] PHP Catchable fatal error:  Argument 1 passed to Kantaria\Controllers\UserController::__construct() must be an instance of Kantaria\Controllers\ContainerInterface, null given, called in /home/ubuntu/workspace/src/dependencies.php on line 20 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 13
+[09-Jun-2016 00:02:48 UTC] PHP Stack trace:
+[09-Jun-2016 00:02:48 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:02:48 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[09-Jun-2016 00:02:48 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 00:02:48 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 00:02:48 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:02:48 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 00:02:48 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 00:02:48 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:02:48 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[09-Jun-2016 00:02:48 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[09-Jun-2016 00:02:48 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[09-Jun-2016 00:02:48 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[09-Jun-2016 00:02:48 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:19-21}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:02:48 UTC] PHP  14. Kantaria\Controllers\UserController->__construct() /home/ubuntu/workspace/src/dependencies.php:20
+[09-Jun-2016 00:03:16 UTC] PHP Catchable fatal error:  Argument 1 passed to Kantaria\Controllers\UserController::__construct() must be an instance of Kantaria\Controllers\ContainerInterface, null given, called in /home/ubuntu/workspace/src/dependencies.php on line 19 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 13
+[09-Jun-2016 00:03:16 UTC] PHP Stack trace:
+[09-Jun-2016 00:03:16 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:03:16 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[09-Jun-2016 00:03:16 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 00:03:16 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 00:03:16 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:16 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 00:03:16 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 00:03:16 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:16 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[09-Jun-2016 00:03:16 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[09-Jun-2016 00:03:16 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[09-Jun-2016 00:03:16 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[09-Jun-2016 00:03:16 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:17-20}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:03:16 UTC] PHP  14. Kantaria\Controllers\UserController->__construct() /home/ubuntu/workspace/src/dependencies.php:19
+[09-Jun-2016 00:03:19 UTC] PHP Catchable fatal error:  Argument 1 passed to Kantaria\Controllers\UserController::__construct() must be an instance of Kantaria\Controllers\ContainerInterface, null given, called in /home/ubuntu/workspace/src/dependencies.php on line 19 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 13
+[09-Jun-2016 00:03:19 UTC] PHP Stack trace:
+[09-Jun-2016 00:03:19 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:03:19 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[09-Jun-2016 00:03:19 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 00:03:19 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 00:03:19 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:19 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 00:03:19 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 00:03:19 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:19 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[09-Jun-2016 00:03:19 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[09-Jun-2016 00:03:19 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[09-Jun-2016 00:03:19 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[09-Jun-2016 00:03:19 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:17-20}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:03:19 UTC] PHP  14. Kantaria\Controllers\UserController->__construct() /home/ubuntu/workspace/src/dependencies.php:19
+[09-Jun-2016 00:03:30 UTC] PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unexpected data in output buffer. Maybe you have characters before an opening <?php tag?' in /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:552
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php(344): Slim\App->finalize(Object(Slim\Http\Response))
+#1 /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php(298): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#2 /home/ubuntu/workspace/public/index.php(34): Slim\App->run()
+#3 {main}
+  thrown in /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php on line 552
+[09-Jun-2016 00:03:47 UTC] PHP Catchable fatal error:  Argument 1 passed to Kantaria\Controllers\UserController::__construct() must be an instance of Kantaria\Controllers\ContainerInterface, instance of Slim\Container given, called in /home/ubuntu/workspace/src/dependencies.php on line 18 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 13
+[09-Jun-2016 00:03:47 UTC] PHP Stack trace:
+[09-Jun-2016 00:03:47 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 00:03:47 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:34
+[09-Jun-2016 00:03:47 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 00:03:47 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 00:03:47 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:47 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 00:03:47 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 00:03:47 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 00:03:47 UTC] PHP   9. Slim\Routable->resolveCallable() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:314
+[09-Jun-2016 00:03:47 UTC] PHP  10. Slim\CallableResolver->resolve() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolverAwareTrait.php:45
+[09-Jun-2016 00:03:47 UTC] PHP  11. Slim\Container->get() /home/ubuntu/workspace/vendor/slim/slim/Slim/CallableResolver.php:59
+[09-Jun-2016 00:03:47 UTC] PHP  12. Pimple\Container->offsetGet() /home/ubuntu/workspace/vendor/slim/slim/Slim/Container.php:125
+[09-Jun-2016 00:03:47 UTC] PHP  13. {closure:/home/ubuntu/workspace/src/dependencies.php:17-19}() /home/ubuntu/workspace/vendor/pimple/pimple/src/Pimple/Container.php:113
+[09-Jun-2016 00:03:47 UTC] PHP  14. Kantaria\Controllers\UserController->__construct() /home/ubuntu/workspace/src/dependencies.php:18
+[09-Jun-2016 08:27:32 UTC] PHP Warning:  Missing argument 1 for Kantaria\Controllers\Controller::showValidateErrors(), called in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 30 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/Controller.php on line 9
+[09-Jun-2016 08:27:32 UTC] PHP Stack trace:
+[09-Jun-2016 08:27:32 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 08:27:32 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:35
+[09-Jun-2016 08:27:32 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 08:27:32 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 08:27:32 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 08:27:32 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 08:27:32 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 08:27:32 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 08:27:32 UTC] PHP   9. Slim\Handlers\Strategies\RequestResponse->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:325
+[09-Jun-2016 08:27:32 UTC] PHP  10. call_user_func:{/home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41}() /home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41
+[09-Jun-2016 08:27:32 UTC] PHP  11. Kantaria\Controllers\UserController->create() /home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41
+[09-Jun-2016 08:27:32 UTC] PHP  12. Kantaria\Controllers\Controller->showValidateErrors() /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php:30
+[09-Jun-2016 08:27:32 UTC] PHP Catchable fatal error:  Argument 2 passed to Kantaria\Controllers\Controller::showValidateErrors() must implement interface Psr\Http\Message\ResponseInterface, none given, called in /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php on line 30 and defined in /home/ubuntu/workspace/src/Kantaria/Controllers/Controller.php on line 9
+[09-Jun-2016 08:27:32 UTC] PHP Stack trace:
+[09-Jun-2016 08:27:32 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/index.php:0
+[09-Jun-2016 08:27:32 UTC] PHP   2. Slim\App->run() /home/ubuntu/workspace/public/index.php:35
+[09-Jun-2016 08:27:32 UTC] PHP   3. Slim\App->process() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:298
+[09-Jun-2016 08:27:32 UTC] PHP   4. Slim\App->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:337
+[09-Jun-2016 08:27:32 UTC] PHP   5. Slim\App->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 08:27:32 UTC] PHP   6. Slim\Route->run() /home/ubuntu/workspace/vendor/slim/slim/Slim/App.php:443
+[09-Jun-2016 08:27:32 UTC] PHP   7. Slim\Route->callMiddlewareStack() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:297
+[09-Jun-2016 08:27:32 UTC] PHP   8. Slim\Route->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/MiddlewareAwareTrait.php:116
+[09-Jun-2016 08:27:32 UTC] PHP   9. Slim\Handlers\Strategies\RequestResponse->__invoke() /home/ubuntu/workspace/vendor/slim/slim/Slim/Route.php:325
+[09-Jun-2016 08:27:32 UTC] PHP  10. call_user_func:{/home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41}() /home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41
+[09-Jun-2016 08:27:32 UTC] PHP  11. Kantaria\Controllers\UserController->create() /home/ubuntu/workspace/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php:41
+[09-Jun-2016 08:27:32 UTC] PHP  12. Kantaria\Controllers\Controller->showValidateErrors() /home/ubuntu/workspace/src/Kantaria/Controllers/UserController.php:30
+[09-Jun-2016 08:45:55 UTC] PHP Notice:  Required @SWG\Info() not found in /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php on line 38
+[09-Jun-2016 08:45:55 UTC] PHP Stack trace:
+[09-Jun-2016 08:45:55 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/swagger.php:0
+[09-Jun-2016 08:45:55 UTC] PHP   2. Swagger\scan() /home/ubuntu/workspace/public/swagger.php:4
+[09-Jun-2016 08:45:55 UTC] PHP   3. Swagger\Analysis->validate() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/functions.php:46
+[09-Jun-2016 08:45:55 UTC] PHP   4. Swagger\Annotations\AbstractAnnotation->validate() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Analysis.php:328
+[09-Jun-2016 08:45:55 UTC] PHP   5. Swagger\Logger::notice() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Annotations/AbstractAnnotation.php:373
+[09-Jun-2016 08:45:55 UTC] PHP   6. call_user_func:{/home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 08:45:55 UTC] PHP   7. Swagger\Logger->Swagger\{closure}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 08:45:55 UTC] PHP   8. trigger_error() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:38
+[09-Jun-2016 09:00:55 UTC] PHP Notice:  Unexpected field "descriptions" for @SWG\Property(), expecting "property", "ref", "title", "description", "maxProperties", "minProperties", "required", "properties", "type", "format", "items", "collectionFormat", "default", "maximum", "exclusiveMaximum", "minimum", "exclusiveMinimum", "maxLength", "minLength", "pattern", "maxItems", "minItems", "uniqueItems", "enum", "multipleOf", "discriminator", "readOnly", "xml", "externalDocs", "example", "allOf", "additionalProperties", "x" in /home/ubuntu/workspace/public/../src/Kantaria/Models/User.php on line 7 in /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php on line 38
+[09-Jun-2016 09:00:55 UTC] PHP Stack trace:
+[09-Jun-2016 09:00:55 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/swagger.php:0
+[09-Jun-2016 09:00:55 UTC] PHP   2. Swagger\scan() /home/ubuntu/workspace/public/swagger.php:4
+[09-Jun-2016 09:00:55 UTC] PHP   3. Swagger\StaticAnalyser->fromFile() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/functions.php:41
+[09-Jun-2016 09:00:55 UTC] PHP   4. Swagger\StaticAnalyser->fromTokens() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:33
+[09-Jun-2016 09:00:55 UTC] PHP   5. Swagger\StaticAnalyser->analyseComment() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:112
+[09-Jun-2016 09:00:55 UTC] PHP   6. Swagger\Analyser->fromComment() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:244
+[09-Jun-2016 09:00:55 UTC] PHP   7. Doctrine\Common\Annotations\DocParser->parse() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Analyser.php:85
+[09-Jun-2016 09:00:55 UTC] PHP   8. Doctrine\Common\Annotations\DocParser->Annotations() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:334
+[09-Jun-2016 09:00:55 UTC] PHP   9. Doctrine\Common\Annotations\DocParser->Annotation() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:641
+[09-Jun-2016 09:00:55 UTC] PHP  10. Swagger\Annotations\AbstractAnnotation->__construct() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:794
+[09-Jun-2016 09:00:55 UTC] PHP  11. Swagger\Annotations\AbstractAnnotation->__set() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:108
+[09-Jun-2016 09:00:55 UTC] PHP  12. Swagger\Logger::notice() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Annotations/AbstractAnnotation.php:139
+[09-Jun-2016 09:00:55 UTC] PHP  13. call_user_func:{/home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 09:00:55 UTC] PHP  14. Swagger\Logger->Swagger\{closure}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 09:00:55 UTC] PHP  15. trigger_error() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:38
+[09-Jun-2016 09:01:02 UTC] PHP Notice:  Unexpected field "descriptions" for @SWG\Property(), expecting "property", "ref", "title", "description", "maxProperties", "minProperties", "required", "properties", "type", "format", "items", "collectionFormat", "default", "maximum", "exclusiveMaximum", "minimum", "exclusiveMinimum", "maxLength", "minLength", "pattern", "maxItems", "minItems", "uniqueItems", "enum", "multipleOf", "discriminator", "readOnly", "xml", "externalDocs", "example", "allOf", "additionalProperties", "x" in /home/ubuntu/workspace/public/../src/Kantaria/Models/User.php on line 7 in /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php on line 38
+[09-Jun-2016 09:01:02 UTC] PHP Stack trace:
+[09-Jun-2016 09:01:02 UTC] PHP   1. {main}() /home/ubuntu/workspace/public/swagger.php:0
+[09-Jun-2016 09:01:02 UTC] PHP   2. Swagger\scan() /home/ubuntu/workspace/public/swagger.php:4
+[09-Jun-2016 09:01:02 UTC] PHP   3. Swagger\StaticAnalyser->fromFile() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/functions.php:41
+[09-Jun-2016 09:01:02 UTC] PHP   4. Swagger\StaticAnalyser->fromTokens() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:33
+[09-Jun-2016 09:01:02 UTC] PHP   5. Swagger\StaticAnalyser->analyseComment() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:112
+[09-Jun-2016 09:01:02 UTC] PHP   6. Swagger\Analyser->fromComment() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/StaticAnalyser.php:244
+[09-Jun-2016 09:01:02 UTC] PHP   7. Doctrine\Common\Annotations\DocParser->parse() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Analyser.php:85
+[09-Jun-2016 09:01:02 UTC] PHP   8. Doctrine\Common\Annotations\DocParser->Annotations() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:334
+[09-Jun-2016 09:01:02 UTC] PHP   9. Doctrine\Common\Annotations\DocParser->Annotation() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:641
+[09-Jun-2016 09:01:02 UTC] PHP  10. Swagger\Annotations\AbstractAnnotation->__construct() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:794
+[09-Jun-2016 09:01:02 UTC] PHP  11. Swagger\Annotations\AbstractAnnotation->__set() /home/ubuntu/workspace/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/DocParser.php:108
+[09-Jun-2016 09:01:02 UTC] PHP  12. Swagger\Logger::notice() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Annotations/AbstractAnnotation.php:139
+[09-Jun-2016 09:01:02 UTC] PHP  13. call_user_func:{/home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 09:01:02 UTC] PHP  14. Swagger\Logger->Swagger\{closure}() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:68
+[09-Jun-2016 09:01:02 UTC] PHP  15. trigger_error() /home/ubuntu/workspace/vendor/zircote/swagger-php/src/Logger.php:38

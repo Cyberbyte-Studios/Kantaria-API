@@ -1,13 +1,9 @@
 <?php
 // DIC configuration
 
-$container = $app->getContainer();
+use Kantaria\Controllers\UserController;
 
-// view renderer
-$container['renderer'] = function ($c) {
-    $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
-};
+$container = $app->getContainer();
 
 // monolog
 $container['logger'] = function ($c) {
@@ -16,4 +12,8 @@ $container['logger'] = function ($c) {
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
     return $logger;
+};
+
+$container['UserController'] = function($container) {
+    return new UserController($container);
 };

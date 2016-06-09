@@ -1,4 +1,9 @@
+.c9
 /vendor/
 /logs/*
 !/logs/README.md
 /example
+/propel.yml
+/generated-sql
+/generated-conf
+.env
