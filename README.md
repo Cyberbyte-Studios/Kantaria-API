@@ -1,18 +1,11 @@
-# Slim Framework 3 Skeleton Application
+# Kantaria API
+A rewrite of an existing API (Found in /example). [Jira Project](https://blackwood.atlassian.net/secure/RapidBoard.jspa?projectKey=KANAPI&rapidView=2)
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+See draft API Spec at [Google Docs](https://docs.google.com/document/d/1Q_kc99gjiXMNrBCE19Cy7UNjmqiAzG6_S1WBf62RVxw/edit?usp=sharing)
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+## Running
+To start your own development copy of the api just run `docker-compose up` after installing
+[docker](https://docs.docker.com/engine/installation/) and [docker compose](https://docs.docker.com/compose/install/) 
+You should now be able to visit `http://localhost:8080`.
 
-## Install the Application
-
-Run this command from the directory in which you want to install your new Slim Framework application.
-
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
-
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
-
-That's it! Now go build something cool.
+It is recommended you use a program like [Postman](http://www.getpostman.com/) to interact with the API.

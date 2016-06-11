@@ -1,0 +1,16 @@
+version: '2'
+services:
+  php:
+    image: php:apache
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mariadb
+    environment:
+          MYSQL_DATABASE: bidthathome
+          MYSQL_USER: bidthathome
+          MYSQL_PASSWORD: 7p24T4Qsgx6vdfwX
+          MYSQL_ROOT_PASSWORD: 7p24T4Qsgx6vdfwX
