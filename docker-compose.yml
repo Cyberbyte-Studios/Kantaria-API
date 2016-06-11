@@ -10,7 +10,7 @@ services:
   db:
     image: mariadb
     environment:
-          MYSQL_DATABASE: bidthathome
-          MYSQL_USER: bidthathome
-          MYSQL_PASSWORD: 7p24T4Qsgx6vdfwX
-          MYSQL_ROOT_PASSWORD: 7p24T4Qsgx6vdfwX
+      MYSQL_DATABASE: kantaria
+      MYSQL_USER: kantaria
+      MYSQL_PASSWORD: kantaria
+      MYSQL_ROOT_PASSWORD: kantaria
