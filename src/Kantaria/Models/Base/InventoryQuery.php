@@ -409,9 +409,6 @@ abstract class InventoryQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($item)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $item)) {
-                $item = str_replace('*', '%', $item);
-                $comparison = Criteria::LIKE;
             }
         }
 

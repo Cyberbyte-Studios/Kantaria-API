@@ -2,8 +2,8 @@
 
 namespace Kantaria\Models\Map;
 
-use Kantaria\Models\Character;
-use Kantaria\Models\CharacterQuery;
+use Kantaria\Models\Quest;
+use Kantaria\Models\QuestQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'character' table.
+ * This class defines the structure of the 'quest' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class CharacterTableMap extends TableMap
+class QuestTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class CharacterTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Kantaria.Models.Map.CharacterTableMap';
+    const CLASS_NAME = 'Kantaria.Models.Map.QuestTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class CharacterTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'character';
+    const TABLE_NAME = 'quest';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Kantaria\\Models\\Character';
+    const OM_CLASS = '\\Kantaria\\Models\\Quest';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Kantaria.Models.Character';
+    const CLASS_DEFAULT = 'Kantaria.Models.Quest';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
@@ -69,57 +69,47 @@ class CharacterTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'character.id';
+    const COL_ID = 'quest.id';
 
     /**
-     * the column name for the user_id field
+     * the column name for the character_id field
      */
-    const COL_USER_ID = 'character.user_id';
+    const COL_CHARACTER_ID = 'quest.character_id';
 
     /**
-     * the column name for the first_name field
+     * the column name for the quest field
      */
-    const COL_FIRST_NAME = 'character.first_name';
+    const COL_QUEST = 'quest.quest';
 
     /**
-     * the column name for the last_name field
+     * the column name for the completed field
      */
-    const COL_LAST_NAME = 'character.last_name';
+    const COL_COMPLETED = 'quest.completed';
 
     /**
-     * the column name for the health field
+     * the column name for the task1 field
      */
-    const COL_HEALTH = 'character.health';
+    const COL_TASK1 = 'quest.task1';
 
     /**
-     * the column name for the oxygen field
+     * the column name for the task2 field
      */
-    const COL_OXYGEN = 'character.oxygen';
+    const COL_TASK2 = 'quest.task2';
 
     /**
-     * the column name for the food field
+     * the column name for the task3 field
      */
-    const COL_FOOD = 'character.food';
+    const COL_TASK3 = 'quest.task3';
 
     /**
-     * the column name for the posx field
+     * the column name for the task4 field
      */
-    const COL_POSX = 'character.posx';
-
-    /**
-     * the column name for the posy field
-     */
-    const COL_POSY = 'character.posy';
-
-    /**
-     * the column name for the posz field
-     */
-    const COL_POSZ = 'character.posz';
+    const COL_TASK4 = 'quest.task4';
 
     /**
      * The default string format for model objects of the related table
@@ -133,11 +123,11 @@ class CharacterTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'UserId', 'FirstName', 'LastName', 'Health', 'Oxygen', 'Food', 'Posx', 'Posy', 'Posz', ),
-        self::TYPE_CAMELNAME     => array('id', 'userId', 'firstName', 'lastName', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
-        self::TYPE_COLNAME       => array(CharacterTableMap::COL_ID, CharacterTableMap::COL_USER_ID, CharacterTableMap::COL_FIRST_NAME, CharacterTableMap::COL_LAST_NAME, CharacterTableMap::COL_HEALTH, CharacterTableMap::COL_OXYGEN, CharacterTableMap::COL_FOOD, CharacterTableMap::COL_POSX, CharacterTableMap::COL_POSY, CharacterTableMap::COL_POSZ, ),
-        self::TYPE_FIELDNAME     => array('id', 'user_id', 'first_name', 'last_name', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id', 'CharacterId', 'Quest', 'Completed', 'Task1', 'Task2', 'Task3', 'Task4', ),
+        self::TYPE_CAMELNAME     => array('id', 'characterId', 'quest', 'completed', 'task1', 'task2', 'task3', 'task4', ),
+        self::TYPE_COLNAME       => array(QuestTableMap::COL_ID, QuestTableMap::COL_CHARACTER_ID, QuestTableMap::COL_QUEST, QuestTableMap::COL_COMPLETED, QuestTableMap::COL_TASK1, QuestTableMap::COL_TASK2, QuestTableMap::COL_TASK3, QuestTableMap::COL_TASK4, ),
+        self::TYPE_FIELDNAME     => array('id', 'character_id', 'quest', 'completed', 'task1', 'task2', 'task3', 'task4', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -147,11 +137,11 @@ class CharacterTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'FirstName' => 2, 'LastName' => 3, 'Health' => 4, 'Oxygen' => 5, 'Food' => 6, 'Posx' => 7, 'Posy' => 8, 'Posz' => 9, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'firstName' => 2, 'lastName' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
-        self::TYPE_COLNAME       => array(CharacterTableMap::COL_ID => 0, CharacterTableMap::COL_USER_ID => 1, CharacterTableMap::COL_FIRST_NAME => 2, CharacterTableMap::COL_LAST_NAME => 3, CharacterTableMap::COL_HEALTH => 4, CharacterTableMap::COL_OXYGEN => 5, CharacterTableMap::COL_FOOD => 6, CharacterTableMap::COL_POSX => 7, CharacterTableMap::COL_POSY => 8, CharacterTableMap::COL_POSZ => 9, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'first_name' => 2, 'last_name' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'CharacterId' => 1, 'Quest' => 2, 'Completed' => 3, 'Task1' => 4, 'Task2' => 5, 'Task3' => 6, 'Task4' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'characterId' => 1, 'quest' => 2, 'completed' => 3, 'task1' => 4, 'task2' => 5, 'task3' => 6, 'task4' => 7, ),
+        self::TYPE_COLNAME       => array(QuestTableMap::COL_ID => 0, QuestTableMap::COL_CHARACTER_ID => 1, QuestTableMap::COL_QUEST => 2, QuestTableMap::COL_COMPLETED => 3, QuestTableMap::COL_TASK1 => 4, QuestTableMap::COL_TASK2 => 5, QuestTableMap::COL_TASK3 => 6, QuestTableMap::COL_TASK4 => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'character_id' => 1, 'quest' => 2, 'completed' => 3, 'task1' => 4, 'task2' => 5, 'task3' => 6, 'task4' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -164,23 +154,21 @@ class CharacterTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('character');
-        $this->setPhpName('Character');
+        $this->setName('quest');
+        $this->setPhpName('Quest');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Kantaria\\Models\\Character');
+        $this->setClassName('\\Kantaria\\Models\\Quest');
         $this->setPackage('Kantaria.Models');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'user', 'id', true, null, null);
-        $this->addColumn('first_name', 'FirstName', 'VARCHAR', true, 128, null);
-        $this->addColumn('last_name', 'LastName', 'VARCHAR', true, 128, null);
-        $this->addColumn('health', 'Health', 'INTEGER', false, null, null);
-        $this->addColumn('oxygen', 'Oxygen', 'INTEGER', false, null, null);
-        $this->addColumn('food', 'Food', 'INTEGER', false, null, null);
-        $this->addColumn('posx', 'Posx', 'INTEGER', false, null, null);
-        $this->addColumn('posy', 'Posy', 'INTEGER', false, null, null);
-        $this->addColumn('posz', 'Posz', 'INTEGER', false, null, null);
+        $this->addForeignKey('character_id', 'CharacterId', 'INTEGER', 'character', 'id', true, null, null);
+        $this->addColumn('quest', 'Quest', 'VARCHAR', true, 70, null);
+        $this->addColumn('completed', 'Completed', 'TINYINT', true, null, null);
+        $this->addColumn('task1', 'Task1', 'INTEGER', true, null, null);
+        $this->addColumn('task2', 'Task2', 'INTEGER', true, null, null);
+        $this->addColumn('task3', 'Task3', 'INTEGER', true, null, null);
+        $this->addColumn('task4', 'Task4', 'INTEGER', true, null, null);
     } // initialize()
 
     /**
@@ -188,27 +176,13 @@ class CharacterTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('User', '\\Kantaria\\Models\\User', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('Character', '\\Kantaria\\Models\\Character', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':user_id',
+    0 => ':character_id',
     1 => ':id',
   ),
 ), null, null, null, false);
-        $this->addRelation('Inventory', '\\Kantaria\\Models\\Inventory', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':character_id',
-    1 => ':id',
-  ),
-), null, null, 'Inventories', false);
-        $this->addRelation('Quest', '\\Kantaria\\Models\\Quest', RelationMap::ONE_TO_MANY, array (
-  0 =>
-  array (
-    0 => ':character_id',
-    1 => ':id',
-  ),
-), null, null, 'Quests', false);
     } // buildRelations()
 
     /**
@@ -220,7 +194,7 @@ class CharacterTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('userIdNotNull' => array ('column' => 'username','validator' => 'NotNull',), 'firstNameNotNull' => array ('column' => 'first_name','validator' => 'NotNull',), 'lastNameNotNull' => array ('column' => 'last_name','validator' => 'NotNull',), ),
+            'validate' => array('characterIdNotNull' => array ('column' => 'character_id','validator' => 'NotNull',), 'questNotNull' => array ('column' => 'quest','validator' => 'NotNull',), 'completedNotNull' => array ('column' => 'completed','validator' => 'NotNull',), 'task1NotNull' => array ('column' => 'task1','validator' => 'NotNull',), 'task2NotNull' => array ('column' => 'task2','validator' => 'NotNull',), 'task3NotNull' => array ('column' => 'task3','validator' => 'NotNull',), 'task4NotNull' => array ('column' => 'task4','validator' => 'NotNull',), ),
         );
     } // getBehaviors()
 
@@ -281,7 +255,7 @@ class CharacterTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? CharacterTableMap::CLASS_DEFAULT : CharacterTableMap::OM_CLASS;
+        return $withPrefix ? QuestTableMap::CLASS_DEFAULT : QuestTableMap::OM_CLASS;
     }
 
     /**
@@ -295,22 +269,22 @@ class CharacterTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Character object, last column rank)
+     * @return array           (Quest object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = CharacterTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = CharacterTableMap::getInstanceFromPool($key))) {
+        $key = QuestTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = QuestTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + CharacterTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + QuestTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = CharacterTableMap::OM_CLASS;
-            /** @var Character $obj */
+            $cls = QuestTableMap::OM_CLASS;
+            /** @var Quest $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            CharacterTableMap::addInstanceToPool($obj, $key);
+            QuestTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -333,18 +307,18 @@ class CharacterTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = CharacterTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = CharacterTableMap::getInstanceFromPool($key))) {
+            $key = QuestTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = QuestTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Character $obj */
+                /** @var Quest $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                CharacterTableMap::addInstanceToPool($obj, $key);
+                QuestTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -365,27 +339,23 @@ class CharacterTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(CharacterTableMap::COL_ID);
-            $criteria->addSelectColumn(CharacterTableMap::COL_USER_ID);
-            $criteria->addSelectColumn(CharacterTableMap::COL_FIRST_NAME);
-            $criteria->addSelectColumn(CharacterTableMap::COL_LAST_NAME);
-            $criteria->addSelectColumn(CharacterTableMap::COL_HEALTH);
-            $criteria->addSelectColumn(CharacterTableMap::COL_OXYGEN);
-            $criteria->addSelectColumn(CharacterTableMap::COL_FOOD);
-            $criteria->addSelectColumn(CharacterTableMap::COL_POSX);
-            $criteria->addSelectColumn(CharacterTableMap::COL_POSY);
-            $criteria->addSelectColumn(CharacterTableMap::COL_POSZ);
+            $criteria->addSelectColumn(QuestTableMap::COL_ID);
+            $criteria->addSelectColumn(QuestTableMap::COL_CHARACTER_ID);
+            $criteria->addSelectColumn(QuestTableMap::COL_QUEST);
+            $criteria->addSelectColumn(QuestTableMap::COL_COMPLETED);
+            $criteria->addSelectColumn(QuestTableMap::COL_TASK1);
+            $criteria->addSelectColumn(QuestTableMap::COL_TASK2);
+            $criteria->addSelectColumn(QuestTableMap::COL_TASK3);
+            $criteria->addSelectColumn(QuestTableMap::COL_TASK4);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.user_id');
-            $criteria->addSelectColumn($alias . '.first_name');
-            $criteria->addSelectColumn($alias . '.last_name');
-            $criteria->addSelectColumn($alias . '.health');
-            $criteria->addSelectColumn($alias . '.oxygen');
-            $criteria->addSelectColumn($alias . '.food');
-            $criteria->addSelectColumn($alias . '.posx');
-            $criteria->addSelectColumn($alias . '.posy');
-            $criteria->addSelectColumn($alias . '.posz');
+            $criteria->addSelectColumn($alias . '.character_id');
+            $criteria->addSelectColumn($alias . '.quest');
+            $criteria->addSelectColumn($alias . '.completed');
+            $criteria->addSelectColumn($alias . '.task1');
+            $criteria->addSelectColumn($alias . '.task2');
+            $criteria->addSelectColumn($alias . '.task3');
+            $criteria->addSelectColumn($alias . '.task4');
         }
     }
 
@@ -398,7 +368,7 @@ class CharacterTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(CharacterTableMap::DATABASE_NAME)->getTable(CharacterTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(QuestTableMap::DATABASE_NAME)->getTable(QuestTableMap::TABLE_NAME);
     }
 
     /**
@@ -406,16 +376,16 @@ class CharacterTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(CharacterTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(CharacterTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new CharacterTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(QuestTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(QuestTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new QuestTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Character or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Quest or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Character object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Quest object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -426,27 +396,27 @@ class CharacterTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(QuestTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Kantaria\Models\Character) { // it's a model object
+        } elseif ($values instanceof \Kantaria\Models\Quest) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(CharacterTableMap::DATABASE_NAME);
-            $criteria->add(CharacterTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(QuestTableMap::DATABASE_NAME);
+            $criteria->add(QuestTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = CharacterQuery::create()->mergeWith($criteria);
+        $query = QuestQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            CharacterTableMap::clearInstancePool();
+            QuestTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                CharacterTableMap::removeInstanceFromPool($singleval);
+                QuestTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -454,20 +424,20 @@ class CharacterTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the character table.
+     * Deletes all rows from the quest table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return CharacterQuery::create()->doDeleteAll($con);
+        return QuestQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Character or Criteria object.
+     * Performs an INSERT on the database, given a Quest or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Character object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Quest object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -476,22 +446,22 @@ class CharacterTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(QuestTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Character object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Quest object
         }
 
-        if ($criteria->containsKey(CharacterTableMap::COL_ID) && $criteria->keyContainsValue(CharacterTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CharacterTableMap::COL_ID.')');
+        if ($criteria->containsKey(QuestTableMap::COL_ID) && $criteria->keyContainsValue(QuestTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.QuestTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = CharacterQuery::create()->mergeWith($criteria);
+        $query = QuestQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -500,7 +470,7 @@ class CharacterTableMap extends TableMap
         });
     }
 
-} // CharacterTableMap
+} // QuestTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-CharacterTableMap::buildTableMap();
+QuestTableMap::buildTableMap();

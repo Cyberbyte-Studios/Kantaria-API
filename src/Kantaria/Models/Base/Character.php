@@ -8,10 +8,13 @@ use Kantaria\Models\Character as ChildCharacter;
 use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
 use Kantaria\Models\Inventory as ChildInventory;
 use Kantaria\Models\InventoryQuery as ChildInventoryQuery;
+use Kantaria\Models\Quest as ChildQuest;
+use Kantaria\Models\QuestQuery as ChildQuestQuery;
 use Kantaria\Models\User as ChildUser;
 use Kantaria\Models\UserQuery as ChildUserQuery;
 use Kantaria\Models\Map\CharacterTableMap;
 use Kantaria\Models\Map\InventoryTableMap;
+use Kantaria\Models\Map\QuestTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -158,6 +161,12 @@ abstract class Character implements ActiveRecordInterface
     protected $collInventoriesPartial;
 
     /**
+     * @var        ObjectCollection|ChildQuest[] Collection to store aggregation of ChildQuest objects.
+     */
+    protected $collQuests;
+    protected $collQuestsPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -187,6 +196,12 @@ abstract class Character implements ActiveRecordInterface
      * @var ObjectCollection|ChildInventory[]
      */
     protected $inventoriesScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildQuest[]
+     */
+    protected $questsScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Kantaria\Models\Base\Character object.
@@ -857,6 +872,8 @@ abstract class Character implements ActiveRecordInterface
             $this->aUser = null;
             $this->collInventories = null;
 
+            $this->collQuests = null;
+
         } // if (deep)
     }
 
@@ -990,6 +1007,23 @@ abstract class Character implements ActiveRecordInterface
 
             if ($this->collInventories !== null) {
                 foreach ($this->collInventories as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->questsScheduledForDeletion !== null) {
+                if (!$this->questsScheduledForDeletion->isEmpty()) {
+                    \Kantaria\Models\QuestQuery::create()
+                        ->filterByPrimaryKeys($this->questsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->questsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collQuests !== null) {
+                foreach ($this->collQuests as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1261,6 +1295,21 @@ abstract class Character implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collInventories->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collQuests) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'quests';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'quests';
+                        break;
+                    default:
+                        $key = 'Quests';
+                }
+
+                $result[$key] = $this->collQuests->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1560,6 +1609,12 @@ abstract class Character implements ActiveRecordInterface
                 }
             }
 
+            foreach ($this->getQuests() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addQuest($relObj->copy($deepCopy));
+                }
+            }
+
         } // if ($deepCopy)
 
         if ($makeNew) {
@@ -1654,6 +1709,9 @@ abstract class Character implements ActiveRecordInterface
     {
         if ('Inventory' == $relationName) {
             return $this->initInventories();
+        }
+        if ('Quest' == $relationName) {
+            return $this->initQuests();
         }
     }
 
@@ -1883,6 +1941,231 @@ abstract class Character implements ActiveRecordInterface
     }
 
     /**
+     * Clears out the collQuests collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addQuests()
+     */
+    public function clearQuests()
+    {
+        $this->collQuests = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collQuests collection loaded partially.
+     */
+    public function resetPartialQuests($v = true)
+    {
+        $this->collQuestsPartial = $v;
+    }
+
+    /**
+     * Initializes the collQuests collection.
+     *
+     * By default this just sets the collQuests collection to an empty array (like clearcollQuests());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initQuests($overrideExisting = true)
+    {
+        if (null !== $this->collQuests && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = QuestTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collQuests = new $collectionClassName;
+        $this->collQuests->setModel('\Kantaria\Models\Quest');
+    }
+
+    /**
+     * Gets an array of ChildQuest objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildCharacter is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildQuest[] List of ChildQuest objects
+     * @throws PropelException
+     */
+    public function getQuests(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collQuestsPartial && !$this->isNew();
+        if (null === $this->collQuests || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collQuests) {
+                // return empty collection
+                $this->initQuests();
+            } else {
+                $collQuests = ChildQuestQuery::create(null, $criteria)
+                    ->filterByCharacter($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collQuestsPartial && count($collQuests)) {
+                        $this->initQuests(false);
+
+                        foreach ($collQuests as $obj) {
+                            if (false == $this->collQuests->contains($obj)) {
+                                $this->collQuests->append($obj);
+                            }
+                        }
+
+                        $this->collQuestsPartial = true;
+                    }
+
+                    return $collQuests;
+                }
+
+                if ($partial && $this->collQuests) {
+                    foreach ($this->collQuests as $obj) {
+                        if ($obj->isNew()) {
+                            $collQuests[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collQuests = $collQuests;
+                $this->collQuestsPartial = false;
+            }
+        }
+
+        return $this->collQuests;
+    }
+
+    /**
+     * Sets a collection of ChildQuest objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $quests A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildCharacter The current object (for fluent API support)
+     */
+    public function setQuests(Collection $quests, ConnectionInterface $con = null)
+    {
+        /** @var ChildQuest[] $questsToDelete */
+        $questsToDelete = $this->getQuests(new Criteria(), $con)->diff($quests);
+
+
+        $this->questsScheduledForDeletion = $questsToDelete;
+
+        foreach ($questsToDelete as $questRemoved) {
+            $questRemoved->setCharacter(null);
+        }
+
+        $this->collQuests = null;
+        foreach ($quests as $quest) {
+            $this->addQuest($quest);
+        }
+
+        $this->collQuests = $quests;
+        $this->collQuestsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Quest objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Quest objects.
+     * @throws PropelException
+     */
+    public function countQuests(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collQuestsPartial && !$this->isNew();
+        if (null === $this->collQuests || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collQuests) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getQuests());
+            }
+
+            $query = ChildQuestQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByCharacter($this)
+                ->count($con);
+        }
+
+        return count($this->collQuests);
+    }
+
+    /**
+     * Method called to associate a ChildQuest object to this object
+     * through the ChildQuest foreign key attribute.
+     *
+     * @param  ChildQuest $l ChildQuest
+     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     */
+    public function addQuest(ChildQuest $l)
+    {
+        if ($this->collQuests === null) {
+            $this->initQuests();
+            $this->collQuestsPartial = true;
+        }
+
+        if (!$this->collQuests->contains($l)) {
+            $this->doAddQuest($l);
+
+            if ($this->questsScheduledForDeletion and $this->questsScheduledForDeletion->contains($l)) {
+                $this->questsScheduledForDeletion->remove($this->questsScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildQuest $quest The ChildQuest object to add.
+     */
+    protected function doAddQuest(ChildQuest $quest)
+    {
+        $this->collQuests[]= $quest;
+        $quest->setCharacter($this);
+    }
+
+    /**
+     * @param  ChildQuest $quest The ChildQuest object to remove.
+     * @return $this|ChildCharacter The current object (for fluent API support)
+     */
+    public function removeQuest(ChildQuest $quest)
+    {
+        if ($this->getQuests()->contains($quest)) {
+            $pos = $this->collQuests->search($quest);
+            $this->collQuests->remove($pos);
+            if (null === $this->questsScheduledForDeletion) {
+                $this->questsScheduledForDeletion = clone $this->collQuests;
+                $this->questsScheduledForDeletion->clear();
+            }
+            $this->questsScheduledForDeletion[]= clone $quest;
+            $quest->setCharacter(null);
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
@@ -1925,9 +2208,15 @@ abstract class Character implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collQuests) {
+                foreach ($this->collQuests as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
         $this->collInventories = null;
+        $this->collQuests = null;
         $this->aUser = null;
     }
 
@@ -1998,6 +2287,15 @@ abstract class Character implements ActiveRecordInterface
 
             if (null !== $this->collInventories) {
                 foreach ($this->collInventories as $referrerFK) {
+                    if (method_exists($referrerFK, 'validate')) {
+                        if (!$referrerFK->validate($validator)) {
+                            $failureMap->addAll($referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+            }
+            if (null !== $this->collQuests) {
+                foreach ($this->collQuests as $referrerFK) {
                     if (method_exists($referrerFK, 'validate')) {
                         if (!$referrerFK->validate($validator)) {
                             $failureMap->addAll($referrerFK->getValidationFailures());

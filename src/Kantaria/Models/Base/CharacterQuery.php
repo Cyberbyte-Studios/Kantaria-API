@@ -70,7 +70,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCharacterQuery rightJoinWithInventory() Adds a RIGHT JOIN clause and with to the query using the Inventory relation
  * @method     ChildCharacterQuery innerJoinWithInventory() Adds a INNER JOIN clause and with to the query using the Inventory relation
  *
- * @method     \Kantaria\Models\UserQuery|\Kantaria\Models\InventoryQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildCharacterQuery leftJoinQuest($relationAlias = null) Adds a LEFT JOIN clause to the query using the Quest relation
+ * @method     ChildCharacterQuery rightJoinQuest($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Quest relation
+ * @method     ChildCharacterQuery innerJoinQuest($relationAlias = null) Adds a INNER JOIN clause to the query using the Quest relation
+ *
+ * @method     ChildCharacterQuery joinWithQuest($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Quest relation
+ *
+ * @method     ChildCharacterQuery leftJoinWithQuest() Adds a LEFT JOIN clause and with to the query using the Quest relation
+ * @method     ChildCharacterQuery rightJoinWithQuest() Adds a RIGHT JOIN clause and with to the query using the Quest relation
+ * @method     ChildCharacterQuery innerJoinWithQuest() Adds a INNER JOIN clause and with to the query using the Quest relation
+ *
+ * @method     \Kantaria\Models\UserQuery|\Kantaria\Models\InventoryQuery|\Kantaria\Models\QuestQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildCharacter findOne(ConnectionInterface $con = null) Return the first ChildCharacter matching the query
  * @method     ChildCharacter findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCharacter matching the query, or a new ChildCharacter object populated from the query conditions when no match is found
@@ -403,9 +413,6 @@ abstract class CharacterQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($firstName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $firstName)) {
-                $firstName = str_replace('*', '%', $firstName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -432,9 +439,6 @@ abstract class CharacterQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($lastName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $lastName)) {
-                $lastName = str_replace('*', '%', $lastName);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -835,6 +839,79 @@ abstract class CharacterQuery extends ModelCriteria
         return $this
             ->joinInventory($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Inventory', '\Kantaria\Models\InventoryQuery');
+    }
+
+    /**
+     * Filter the query by a related \Kantaria\Models\Quest object
+     *
+     * @param \Kantaria\Models\Quest|ObjectCollection $quest the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildCharacterQuery The current query, for fluid interface
+     */
+    public function filterByQuest($quest, $comparison = null)
+    {
+        if ($quest instanceof \Kantaria\Models\Quest) {
+            return $this
+                ->addUsingAlias(CharacterTableMap::COL_ID, $quest->getCharacterId(), $comparison);
+        } elseif ($quest instanceof ObjectCollection) {
+            return $this
+                ->useQuestQuery()
+                ->filterByPrimaryKeys($quest->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByQuest() only accepts arguments of type \Kantaria\Models\Quest or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Quest relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildCharacterQuery The current query, for fluid interface
+     */
+    public function joinQuest($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Quest');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Quest');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Quest relation Quest object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Kantaria\Models\QuestQuery A secondary query class using the current class as primary query
+     */
+    public function useQuestQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinQuest($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Quest', '\Kantaria\Models\QuestQuery');
     }
 
     /**
