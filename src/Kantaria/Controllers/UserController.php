@@ -46,7 +46,7 @@ class UserController extends Controller
         
         $user = new User();
         $user->setUsername($input['username']);
-        var_dump($input['password']);
+
         $user->setPassword($passwordService->hash($input['password']));
         
         if (!$user->validate()) {
