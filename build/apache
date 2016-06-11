@@ -1,4 +1,5 @@
 FROM php:apache
 MAINTAINER Sam Collins <theatrepro11@gmail.com>
 
-COPY build/apache.conf /etc/apache2/apache.conf
+ADD build/apache.conf /etc/apache2/apache.conf
+ADD build/site.conf /etc/apache2/sites-available/000-default.conf
