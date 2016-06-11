@@ -4,7 +4,7 @@ propel:
         schemaDir: src
 
         # The directory where Propel should output generated object model classes.
-        phpDir: src/Kantaria/Models
+        phpDir: src
 
     database:
         connections:
