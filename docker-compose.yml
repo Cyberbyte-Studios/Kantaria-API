@@ -16,3 +16,9 @@ services:
       MYSQL_USER: kantaria
       MYSQL_PASSWORD: kantaria
       MYSQL_ROOT_PASSWORD: kantaria
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+      driver: local

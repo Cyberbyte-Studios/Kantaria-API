@@ -6,12 +6,12 @@ propel:
         # The directory where Propel should output generated object model classes.
         phpDir: src/Kantaria/Models
 
-   database:
-       connections:
-           default:
-               adapter: mysql
-               dsn: mysql:host=db;port=3306;dbname=kantaria
-               user: kantaria
-               password: kantaria
-               settings:
-                   charset: utf8
+    database:
+        connections:
+            default:
+                adapter: mysql
+                dsn: mysql:host=db;port=3306;dbname=kantaria
+                user: kantaria
+                password: kantaria
+                settings:
+                    charset: utf8
