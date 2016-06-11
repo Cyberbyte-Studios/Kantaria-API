@@ -1,7 +1,9 @@
 version: '2'
 services:
   php:
-    image: php:apache
+    build:
+      context: .
+      dockerfile: build/apache
     ports:
       - "8080:80"
     volumes:

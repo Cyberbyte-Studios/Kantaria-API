@@ -1,0 +1,4 @@
+FROM php:apache
+MAINTAINER Sam Collins <theatrepro11@gmail.com>
+
+COPY build/apache.conf /etc/apache2/apache.conf
