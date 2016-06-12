@@ -18,17 +18,14 @@
         </behavior>
     </table>
 
-    <table name="character">
+    <table name="hero" phpName="Hero">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
         <column name="user_id" type="integer" required="true"/>
         <column name="first_name" type="varchar" size="128" required="true"/>
         <column name="last_name" type="varchar" size="128" required="true"/>
-        
         <column name="health" type="integer"/>
         <column name="oxygen" type="integer"/>
         <column name="food" type="integer"/>
-        
-        
         <column name="posx" type="integer"/>
         <column name="posy" type="integer"/>
         <column name="posz" type="integer"/>
@@ -38,7 +35,7 @@
         </foreign-key>
         
         <behavior name="validate">
-            <parameter name="userIdNotNull" value="{column: username, validator: NotNull}" />
+            <parameter name="userIdNotNull" value="{column: user_id, validator: NotNull}" />
             <parameter name="firstNameNotNull" value="{column: first_name, validator: NotNull}" />
             <parameter name="lastNameNotNull" value="{column: last_name, validator: NotNull}" />
         </behavior>
@@ -46,17 +43,17 @@
     
     <table name="inventory">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-        <column name="character_id" type="integer" required="true"/>
+        <column name="hero_id" type="integer" required="true"/>
         <column name="slot" type="integer" required="true"/>
         <column name="item" type="varchar" size="100" required="true"/>
         <column name="amount" type="integer" required="true"/>
         
-        <foreign-key foreignTable="character">
-            <reference local="character_id" foreign="id"/>
+        <foreign-key foreignTable="hero">
+            <reference local="hero_id" foreign="id"/>
         </foreign-key>
         
         <behavior name="validate">
-            <parameter name="characterIdNotNull" value="{column: character_id, validator: NotNull}" />
+            <parameter name="heroIdNotNull" value="{column: hero_id, validator: NotNull}" />
             <parameter name="slotNotNull" value="{column: slot, validator: NotNull}" />
             <parameter name="itemNotNull" value="{column: item, validator: NotNull}" />
             <parameter name="itemLength" value="{column: item, validator: Length, options: {min: 1, max: 100}}" />
@@ -66,7 +63,7 @@
     
     <table name="quest">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-        <column name="character_id" type="integer" required="true"/>
+        <column name="hero_id" type="integer" required="true"/>
         <column name="quest" type="varchar" size="70" required="true"/>
         <column name="completed" type="tinyint" required="true"/>
         <column name="task1" type="integer" required="true"/>
@@ -74,12 +71,12 @@
         <column name="task3" type="integer" required="true"/>
         <column name="task4" type="integer" required="true"/>
         
-        <foreign-key foreignTable="character">
-            <reference local="character_id" foreign="id"/>
+        <foreign-key foreignTable="hero">
+            <reference local="hero_id" foreign="id"/>
         </foreign-key>
         
         <behavior name="validate">
-            <parameter name="characterIdNotNull" value="{column: character_id, validator: NotNull}" />
+            <parameter name="heroIdNotNull" value="{column: hero_id, validator: NotNull}" />
             <parameter name="questNotNull" value="{column: quest, validator: NotNull}" />
             <parameter name="completedNotNull" value="{column: completed, validator: NotNull}" />
             <parameter name="task1NotNull" value="{column: task1, validator: NotNull}" />
