@@ -16,5 +16,14 @@ use Kantaria\Models\Base\Hero as BaseHero;
  */
 class Hero extends BaseHero
 {
-
+	public function __construct()
+	{
+		parent::__construct();
+		$this->setHealth(300);
+		$this->setOxygen(0);
+		$this->setFood(0);
+		$this->setPosX(6890);
+		$this->setPosY(-3370);
+		$this->setPosZ(20692);
+	}
 }
