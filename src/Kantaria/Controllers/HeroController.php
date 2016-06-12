@@ -4,6 +4,7 @@ namespace Kantaria\Controllers;
 
 use Slim\Container;
 use Kantaria\Models\Hero;
+use Kantaria\Models\HeroQuery;
 use Kantaria\Services\HeroService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,16 +17,16 @@ class HeroController extends Controller
        $this->ci = $ci;
     }
     
-    public function viewAction(ServerRequestInterface $request, ResponseInterface $response, $args) {
-        $input = $request->getParsedBody();
-        
+    public function viewAction(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
         $q = new HeroQuery();
         $hero = $q->findPK($args['id']);
-        
-        return $response->withJson($hero);
+
+        return $response->withJson($hero->toArray());
     }
     
-    public function createAction(ServerRequestInterface $request, ResponseInterface $response, $args) {
+    public function createAction(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
         $input = $request->getParsedBody();
         
         $hero = new Hero();
@@ -35,9 +36,6 @@ class HeroController extends Controller
         $hero->setLastName($input['last_name']);
         $hero->setUserId($input['user_id']);
 
-
-        //$hero = HeroService::applyDefaults($hero);
-        
         if (!$hero->validate()) {
             return $this->showValidateErrors($hero, $response);
         }
