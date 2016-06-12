@@ -4,15 +4,15 @@ namespace Kantaria\Models\Base;
 
 use \Exception;
 use \PDO;
-use Kantaria\Models\Character as ChildCharacter;
-use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
+use Kantaria\Models\Hero as ChildHero;
+use Kantaria\Models\HeroQuery as ChildHeroQuery;
 use Kantaria\Models\Inventory as ChildInventory;
 use Kantaria\Models\InventoryQuery as ChildInventoryQuery;
 use Kantaria\Models\Quest as ChildQuest;
 use Kantaria\Models\QuestQuery as ChildQuestQuery;
 use Kantaria\Models\User as ChildUser;
 use Kantaria\Models\UserQuery as ChildUserQuery;
-use Kantaria\Models\Map\CharacterTableMap;
+use Kantaria\Models\Map\HeroTableMap;
 use Kantaria\Models\Map\InventoryTableMap;
 use Kantaria\Models\Map\QuestTableMap;
 use Propel\Runtime\Propel;
@@ -39,18 +39,18 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Base class that represents a row from the 'character' table.
+ * Base class that represents a row from the 'hero' table.
  *
  *
  *
  * @package    propel.generator.Kantaria.Models.Base
  */
-abstract class Character implements ActiveRecordInterface
+abstract class Hero implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Kantaria\\Models\\Map\\CharacterTableMap';
+    const TABLE_MAP = '\\Kantaria\\Models\\Map\\HeroTableMap';
 
 
     /**
@@ -204,7 +204,7 @@ abstract class Character implements ActiveRecordInterface
     protected $questsScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Kantaria\Models\Base\Character object.
+     * Initializes internal state of Kantaria\Models\Base\Hero object.
      */
     public function __construct()
     {
@@ -299,9 +299,9 @@ abstract class Character implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Character</code> instance.  If
-     * <code>obj</code> is an instance of <code>Character</code>, delegates to
-     * <code>equals(Character)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Hero</code> instance.  If
+     * <code>obj</code> is an instance of <code>Hero</code>, delegates to
+     * <code>equals(Hero)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -367,7 +367,7 @@ abstract class Character implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Character The current object, for fluid interface
+     * @return $this|Hero The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -532,7 +532,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -542,7 +542,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_ID] = true;
+            $this->modifiedColumns[HeroTableMap::COL_ID] = true;
         }
 
         return $this;
@@ -552,7 +552,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [user_id] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setUserId($v)
     {
@@ -562,7 +562,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->user_id !== $v) {
             $this->user_id = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_USER_ID] = true;
+            $this->modifiedColumns[HeroTableMap::COL_USER_ID] = true;
         }
 
         if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -576,7 +576,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [first_name] column.
      *
      * @param string $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setFirstName($v)
     {
@@ -586,7 +586,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->first_name !== $v) {
             $this->first_name = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_FIRST_NAME] = true;
+            $this->modifiedColumns[HeroTableMap::COL_FIRST_NAME] = true;
         }
 
         return $this;
@@ -596,7 +596,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [last_name] column.
      *
      * @param string $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setLastName($v)
     {
@@ -606,7 +606,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->last_name !== $v) {
             $this->last_name = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_LAST_NAME] = true;
+            $this->modifiedColumns[HeroTableMap::COL_LAST_NAME] = true;
         }
 
         return $this;
@@ -616,7 +616,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [health] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setHealth($v)
     {
@@ -626,7 +626,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->health !== $v) {
             $this->health = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_HEALTH] = true;
+            $this->modifiedColumns[HeroTableMap::COL_HEALTH] = true;
         }
 
         return $this;
@@ -636,7 +636,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [oxygen] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setOxygen($v)
     {
@@ -646,7 +646,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->oxygen !== $v) {
             $this->oxygen = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_OXYGEN] = true;
+            $this->modifiedColumns[HeroTableMap::COL_OXYGEN] = true;
         }
 
         return $this;
@@ -656,7 +656,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [food] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setFood($v)
     {
@@ -666,7 +666,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->food !== $v) {
             $this->food = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_FOOD] = true;
+            $this->modifiedColumns[HeroTableMap::COL_FOOD] = true;
         }
 
         return $this;
@@ -676,7 +676,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [posx] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setPosx($v)
     {
@@ -686,7 +686,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->posx !== $v) {
             $this->posx = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_POSX] = true;
+            $this->modifiedColumns[HeroTableMap::COL_POSX] = true;
         }
 
         return $this;
@@ -696,7 +696,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [posy] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setPosy($v)
     {
@@ -706,7 +706,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->posy !== $v) {
             $this->posy = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_POSY] = true;
+            $this->modifiedColumns[HeroTableMap::COL_POSY] = true;
         }
 
         return $this;
@@ -716,7 +716,7 @@ abstract class Character implements ActiveRecordInterface
      * Set the value of [posz] column.
      *
      * @param int $v new value
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function setPosz($v)
     {
@@ -726,7 +726,7 @@ abstract class Character implements ActiveRecordInterface
 
         if ($this->posz !== $v) {
             $this->posz = $v;
-            $this->modifiedColumns[CharacterTableMap::COL_POSZ] = true;
+            $this->modifiedColumns[HeroTableMap::COL_POSZ] = true;
         }
 
         return $this;
@@ -768,34 +768,34 @@ abstract class Character implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CharacterTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : HeroTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CharacterTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : HeroTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CharacterTableMap::translateFieldName('FirstName', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : HeroTableMap::translateFieldName('FirstName', TableMap::TYPE_PHPNAME, $indexType)];
             $this->first_name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : CharacterTableMap::translateFieldName('LastName', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : HeroTableMap::translateFieldName('LastName', TableMap::TYPE_PHPNAME, $indexType)];
             $this->last_name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CharacterTableMap::translateFieldName('Health', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : HeroTableMap::translateFieldName('Health', TableMap::TYPE_PHPNAME, $indexType)];
             $this->health = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : CharacterTableMap::translateFieldName('Oxygen', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : HeroTableMap::translateFieldName('Oxygen', TableMap::TYPE_PHPNAME, $indexType)];
             $this->oxygen = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : CharacterTableMap::translateFieldName('Food', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : HeroTableMap::translateFieldName('Food', TableMap::TYPE_PHPNAME, $indexType)];
             $this->food = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : CharacterTableMap::translateFieldName('Posx', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : HeroTableMap::translateFieldName('Posx', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posx = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : CharacterTableMap::translateFieldName('Posy', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : HeroTableMap::translateFieldName('Posy', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posy = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : CharacterTableMap::translateFieldName('Posz', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : HeroTableMap::translateFieldName('Posz', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posz = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -805,10 +805,10 @@ abstract class Character implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = CharacterTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = HeroTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Kantaria\\Models\\Character'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Kantaria\\Models\\Hero'), 0, $e);
         }
     }
 
@@ -853,13 +853,13 @@ abstract class Character implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(CharacterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(HeroTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildCharacterQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildHeroQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -883,8 +883,8 @@ abstract class Character implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Character::setDeleted()
-     * @see Character::isDeleted()
+     * @see Hero::setDeleted()
+     * @see Hero::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -893,11 +893,11 @@ abstract class Character implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HeroTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildCharacterQuery::create()
+            $deleteQuery = ChildHeroQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -928,7 +928,7 @@ abstract class Character implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CharacterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HeroTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -947,7 +947,7 @@ abstract class Character implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                CharacterTableMap::addInstanceToPool($this);
+                HeroTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -1050,45 +1050,45 @@ abstract class Character implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[CharacterTableMap::COL_ID] = true;
+        $this->modifiedColumns[HeroTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CharacterTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . HeroTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(CharacterTableMap::COL_ID)) {
+        if ($this->isColumnModified(HeroTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_USER_ID)) {
+        if ($this->isColumnModified(HeroTableMap::COL_USER_ID)) {
             $modifiedColumns[':p' . $index++]  = 'user_id';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_FIRST_NAME)) {
+        if ($this->isColumnModified(HeroTableMap::COL_FIRST_NAME)) {
             $modifiedColumns[':p' . $index++]  = 'first_name';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_LAST_NAME)) {
+        if ($this->isColumnModified(HeroTableMap::COL_LAST_NAME)) {
             $modifiedColumns[':p' . $index++]  = 'last_name';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_HEALTH)) {
+        if ($this->isColumnModified(HeroTableMap::COL_HEALTH)) {
             $modifiedColumns[':p' . $index++]  = 'health';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_OXYGEN)) {
+        if ($this->isColumnModified(HeroTableMap::COL_OXYGEN)) {
             $modifiedColumns[':p' . $index++]  = 'oxygen';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_FOOD)) {
+        if ($this->isColumnModified(HeroTableMap::COL_FOOD)) {
             $modifiedColumns[':p' . $index++]  = 'food';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSX)) {
+        if ($this->isColumnModified(HeroTableMap::COL_POSX)) {
             $modifiedColumns[':p' . $index++]  = 'posx';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSY)) {
+        if ($this->isColumnModified(HeroTableMap::COL_POSY)) {
             $modifiedColumns[':p' . $index++]  = 'posy';
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSZ)) {
+        if ($this->isColumnModified(HeroTableMap::COL_POSZ)) {
             $modifiedColumns[':p' . $index++]  = 'posz';
         }
 
         $sql = sprintf(
-            'INSERT INTO character (%s) VALUES (%s)',
+            'INSERT INTO hero (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1173,7 +1173,7 @@ abstract class Character implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CharacterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = HeroTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1243,11 +1243,11 @@ abstract class Character implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Character'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Hero'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Character'][$this->hashCode()] = true;
-        $keys = CharacterTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Hero'][$this->hashCode()] = true;
+        $keys = HeroTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getUserId(),
@@ -1325,11 +1325,11 @@ abstract class Character implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Kantaria\Models\Character
+     * @return $this|\Kantaria\Models\Hero
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CharacterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = HeroTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1340,7 +1340,7 @@ abstract class Character implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Kantaria\Models\Character
+     * @return $this|\Kantaria\Models\Hero
      */
     public function setByPosition($pos, $value)
     {
@@ -1399,7 +1399,7 @@ abstract class Character implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = CharacterTableMap::getFieldNames($keyType);
+        $keys = HeroTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
@@ -1450,7 +1450,7 @@ abstract class Character implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Kantaria\Models\Character The current object, for fluid interface
+     * @return $this|\Kantaria\Models\Hero The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1470,37 +1470,37 @@ abstract class Character implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(CharacterTableMap::DATABASE_NAME);
+        $criteria = new Criteria(HeroTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(CharacterTableMap::COL_ID)) {
-            $criteria->add(CharacterTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(HeroTableMap::COL_ID)) {
+            $criteria->add(HeroTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_USER_ID)) {
-            $criteria->add(CharacterTableMap::COL_USER_ID, $this->user_id);
+        if ($this->isColumnModified(HeroTableMap::COL_USER_ID)) {
+            $criteria->add(HeroTableMap::COL_USER_ID, $this->user_id);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_FIRST_NAME)) {
-            $criteria->add(CharacterTableMap::COL_FIRST_NAME, $this->first_name);
+        if ($this->isColumnModified(HeroTableMap::COL_FIRST_NAME)) {
+            $criteria->add(HeroTableMap::COL_FIRST_NAME, $this->first_name);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_LAST_NAME)) {
-            $criteria->add(CharacterTableMap::COL_LAST_NAME, $this->last_name);
+        if ($this->isColumnModified(HeroTableMap::COL_LAST_NAME)) {
+            $criteria->add(HeroTableMap::COL_LAST_NAME, $this->last_name);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_HEALTH)) {
-            $criteria->add(CharacterTableMap::COL_HEALTH, $this->health);
+        if ($this->isColumnModified(HeroTableMap::COL_HEALTH)) {
+            $criteria->add(HeroTableMap::COL_HEALTH, $this->health);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_OXYGEN)) {
-            $criteria->add(CharacterTableMap::COL_OXYGEN, $this->oxygen);
+        if ($this->isColumnModified(HeroTableMap::COL_OXYGEN)) {
+            $criteria->add(HeroTableMap::COL_OXYGEN, $this->oxygen);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_FOOD)) {
-            $criteria->add(CharacterTableMap::COL_FOOD, $this->food);
+        if ($this->isColumnModified(HeroTableMap::COL_FOOD)) {
+            $criteria->add(HeroTableMap::COL_FOOD, $this->food);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSX)) {
-            $criteria->add(CharacterTableMap::COL_POSX, $this->posx);
+        if ($this->isColumnModified(HeroTableMap::COL_POSX)) {
+            $criteria->add(HeroTableMap::COL_POSX, $this->posx);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSY)) {
-            $criteria->add(CharacterTableMap::COL_POSY, $this->posy);
+        if ($this->isColumnModified(HeroTableMap::COL_POSY)) {
+            $criteria->add(HeroTableMap::COL_POSY, $this->posy);
         }
-        if ($this->isColumnModified(CharacterTableMap::COL_POSZ)) {
-            $criteria->add(CharacterTableMap::COL_POSZ, $this->posz);
+        if ($this->isColumnModified(HeroTableMap::COL_POSZ)) {
+            $criteria->add(HeroTableMap::COL_POSZ, $this->posz);
         }
 
         return $criteria;
@@ -1518,8 +1518,8 @@ abstract class Character implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildCharacterQuery::create();
-        $criteria->add(CharacterTableMap::COL_ID, $this->id);
+        $criteria = ChildHeroQuery::create();
+        $criteria->add(HeroTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1581,7 +1581,7 @@ abstract class Character implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Kantaria\Models\Character (or compatible) type.
+     * @param      object $copyObj An object of \Kantaria\Models\Hero (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1632,7 +1632,7 @@ abstract class Character implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Kantaria\Models\Character Clone of current object.
+     * @return \Kantaria\Models\Hero Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1649,7 +1649,7 @@ abstract class Character implements ActiveRecordInterface
      * Declares an association between this object and a ChildUser object.
      *
      * @param  ChildUser $v
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      * @throws PropelException
      */
     public function setUser(ChildUser $v = null)
@@ -1665,7 +1665,7 @@ abstract class Character implements ActiveRecordInterface
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the ChildUser object, it will not be re-added.
         if ($v !== null) {
-            $v->addCharacter($this);
+            $v->addHero($this);
         }
 
 
@@ -1689,7 +1689,7 @@ abstract class Character implements ActiveRecordInterface
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aUser->addCharacters($this);
+                $this->aUser->addHeros($this);
              */
         }
 
@@ -1767,7 +1767,7 @@ abstract class Character implements ActiveRecordInterface
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildCharacter is new, it will return
+     * If this ChildHero is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
@@ -1784,7 +1784,7 @@ abstract class Character implements ActiveRecordInterface
                 $this->initInventories();
             } else {
                 $collInventories = ChildInventoryQuery::create(null, $criteria)
-                    ->filterByCharacter($this)
+                    ->filterByHero($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1827,7 +1827,7 @@ abstract class Character implements ActiveRecordInterface
      *
      * @param      Collection $inventories A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildCharacter The current object (for fluent API support)
+     * @return $this|ChildHero The current object (for fluent API support)
      */
     public function setInventories(Collection $inventories, ConnectionInterface $con = null)
     {
@@ -1838,7 +1838,7 @@ abstract class Character implements ActiveRecordInterface
         $this->inventoriesScheduledForDeletion = $inventoriesToDelete;
 
         foreach ($inventoriesToDelete as $inventoryRemoved) {
-            $inventoryRemoved->setCharacter(null);
+            $inventoryRemoved->setHero(null);
         }
 
         $this->collInventories = null;
@@ -1879,7 +1879,7 @@ abstract class Character implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByCharacter($this)
+                ->filterByHero($this)
                 ->count($con);
         }
 
@@ -1891,7 +1891,7 @@ abstract class Character implements ActiveRecordInterface
      * through the ChildInventory foreign key attribute.
      *
      * @param  ChildInventory $l ChildInventory
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function addInventory(ChildInventory $l)
     {
@@ -1917,12 +1917,12 @@ abstract class Character implements ActiveRecordInterface
     protected function doAddInventory(ChildInventory $inventory)
     {
         $this->collInventories[]= $inventory;
-        $inventory->setCharacter($this);
+        $inventory->setHero($this);
     }
 
     /**
      * @param  ChildInventory $inventory The ChildInventory object to remove.
-     * @return $this|ChildCharacter The current object (for fluent API support)
+     * @return $this|ChildHero The current object (for fluent API support)
      */
     public function removeInventory(ChildInventory $inventory)
     {
@@ -1934,7 +1934,7 @@ abstract class Character implements ActiveRecordInterface
                 $this->inventoriesScheduledForDeletion->clear();
             }
             $this->inventoriesScheduledForDeletion[]= clone $inventory;
-            $inventory->setCharacter(null);
+            $inventory->setHero(null);
         }
 
         return $this;
@@ -1992,7 +1992,7 @@ abstract class Character implements ActiveRecordInterface
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildCharacter is new, it will return
+     * If this ChildHero is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
@@ -2009,7 +2009,7 @@ abstract class Character implements ActiveRecordInterface
                 $this->initQuests();
             } else {
                 $collQuests = ChildQuestQuery::create(null, $criteria)
-                    ->filterByCharacter($this)
+                    ->filterByHero($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -2052,7 +2052,7 @@ abstract class Character implements ActiveRecordInterface
      *
      * @param      Collection $quests A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildCharacter The current object (for fluent API support)
+     * @return $this|ChildHero The current object (for fluent API support)
      */
     public function setQuests(Collection $quests, ConnectionInterface $con = null)
     {
@@ -2063,7 +2063,7 @@ abstract class Character implements ActiveRecordInterface
         $this->questsScheduledForDeletion = $questsToDelete;
 
         foreach ($questsToDelete as $questRemoved) {
-            $questRemoved->setCharacter(null);
+            $questRemoved->setHero(null);
         }
 
         $this->collQuests = null;
@@ -2104,7 +2104,7 @@ abstract class Character implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByCharacter($this)
+                ->filterByHero($this)
                 ->count($con);
         }
 
@@ -2116,7 +2116,7 @@ abstract class Character implements ActiveRecordInterface
      * through the ChildQuest foreign key attribute.
      *
      * @param  ChildQuest $l ChildQuest
-     * @return $this|\Kantaria\Models\Character The current object (for fluent API support)
+     * @return $this|\Kantaria\Models\Hero The current object (for fluent API support)
      */
     public function addQuest(ChildQuest $l)
     {
@@ -2142,12 +2142,12 @@ abstract class Character implements ActiveRecordInterface
     protected function doAddQuest(ChildQuest $quest)
     {
         $this->collQuests[]= $quest;
-        $quest->setCharacter($this);
+        $quest->setHero($this);
     }
 
     /**
      * @param  ChildQuest $quest The ChildQuest object to remove.
-     * @return $this|ChildCharacter The current object (for fluent API support)
+     * @return $this|ChildHero The current object (for fluent API support)
      */
     public function removeQuest(ChildQuest $quest)
     {
@@ -2159,7 +2159,7 @@ abstract class Character implements ActiveRecordInterface
                 $this->questsScheduledForDeletion->clear();
             }
             $this->questsScheduledForDeletion[]= clone $quest;
-            $quest->setCharacter(null);
+            $quest->setHero(null);
         }
 
         return $this;
@@ -2173,7 +2173,7 @@ abstract class Character implements ActiveRecordInterface
     public function clear()
     {
         if (null !== $this->aUser) {
-            $this->aUser->removeCharacter($this);
+            $this->aUser->removeHero($this);
         }
         $this->id = null;
         $this->user_id = null;
@@ -2227,7 +2227,7 @@ abstract class Character implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(CharacterTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(HeroTableMap::DEFAULT_STRING_FORMAT);
     }
 
     // validate behavior
@@ -2240,7 +2240,7 @@ abstract class Character implements ActiveRecordInterface
      */
     static public function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('username', new NotNull());
+        $metadata->addPropertyConstraint('user_id', new NotNull());
         $metadata->addPropertyConstraint('first_name', new NotNull());
         $metadata->addPropertyConstraint('last_name', new NotNull());
     }

@@ -220,7 +220,7 @@ class CharacterTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('userIdNotNull' => array ('column' => 'username','validator' => 'NotNull',), 'firstNameNotNull' => array ('column' => 'first_name','validator' => 'NotNull',), 'lastNameNotNull' => array ('column' => 'last_name','validator' => 'NotNull',), ),
+            'validate' => array('userIdNotNull' => array ('column' => 'user_id','validator' => 'NotNull',), 'firstNameNotNull' => array ('column' => 'first_name','validator' => 'NotNull',), 'lastNameNotNull' => array ('column' => 'last_name','validator' => 'NotNull',), ),
         );
     } // getBehaviors()
 

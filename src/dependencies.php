@@ -2,6 +2,7 @@
 // DIC configuration
 
 use Kantaria\Controllers\UserController;
+use Kantaria\Controllers\HeroController;
 
 $container = $app->getContainer();
 
@@ -18,6 +19,6 @@ $container['UserController'] = function($container) {
     return new UserController($container);
 };
 
-$container['CharacterController'] = function($container) {
-    return new CharacterController($container);
+$container['HeroController'] = function($container) {
+    return new HeroController($container);
 };

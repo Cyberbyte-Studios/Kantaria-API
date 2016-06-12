@@ -4,11 +4,11 @@ namespace Kantaria\Models\Base;
 
 use \Exception;
 use \PDO;
-use Kantaria\Models\Character as ChildCharacter;
-use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
+use Kantaria\Models\Hero as ChildHero;
+use Kantaria\Models\HeroQuery as ChildHeroQuery;
 use Kantaria\Models\User as ChildUser;
 use Kantaria\Models\UserQuery as ChildUserQuery;
-use Kantaria\Models\Map\CharacterTableMap;
+use Kantaria\Models\Map\HeroTableMap;
 use Kantaria\Models\Map\UserTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -98,10 +98,10 @@ abstract class User implements ActiveRecordInterface
     protected $password;
 
     /**
-     * @var        ObjectCollection|ChildCharacter[] Collection to store aggregation of ChildCharacter objects.
+     * @var        ObjectCollection|ChildHero[] Collection to store aggregation of ChildHero objects.
      */
-    protected $collCharacters;
-    protected $collCharactersPartial;
+    protected $collHeros;
+    protected $collHerosPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -130,9 +130,9 @@ abstract class User implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildCharacter[]
+     * @var ObjectCollection|ChildHero[]
      */
-    protected $charactersScheduledForDeletion = null;
+    protected $herosScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Kantaria\Models\Base\User object.
@@ -562,7 +562,7 @@ abstract class User implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collCharacters = null;
+            $this->collHeros = null;
 
         } // if (deep)
     }
@@ -674,17 +674,17 @@ abstract class User implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->charactersScheduledForDeletion !== null) {
-                if (!$this->charactersScheduledForDeletion->isEmpty()) {
-                    \Kantaria\Models\CharacterQuery::create()
-                        ->filterByPrimaryKeys($this->charactersScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->herosScheduledForDeletion !== null) {
+                if (!$this->herosScheduledForDeletion->isEmpty()) {
+                    \Kantaria\Models\HeroQuery::create()
+                        ->filterByPrimaryKeys($this->herosScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->charactersScheduledForDeletion = null;
+                    $this->herosScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collCharacters !== null) {
-                foreach ($this->collCharacters as $referrerFK) {
+            if ($this->collHeros !== null) {
+                foreach ($this->collHeros as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -857,20 +857,20 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collCharacters) {
+            if (null !== $this->collHeros) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'characters';
+                        $key = 'heros';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'characters';
+                        $key = 'heros';
                         break;
                     default:
-                        $key = 'Characters';
+                        $key = 'Heros';
                 }
 
-                $result[$key] = $this->collCharacters->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->collHeros->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1094,9 +1094,9 @@ abstract class User implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getCharacters() as $relObj) {
+            foreach ($this->getHeros() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addCharacter($relObj->copy($deepCopy));
+                    $copyObj->addHero($relObj->copy($deepCopy));
                 }
             }
 
@@ -1141,37 +1141,37 @@ abstract class User implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('Character' == $relationName) {
-            return $this->initCharacters();
+        if ('Hero' == $relationName) {
+            return $this->initHeros();
         }
     }
 
     /**
-     * Clears out the collCharacters collection
+     * Clears out the collHeros collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addCharacters()
+     * @see        addHeros()
      */
-    public function clearCharacters()
+    public function clearHeros()
     {
-        $this->collCharacters = null; // important to set this to NULL since that means it is uninitialized
+        $this->collHeros = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collCharacters collection loaded partially.
+     * Reset is the collHeros collection loaded partially.
      */
-    public function resetPartialCharacters($v = true)
+    public function resetPartialHeros($v = true)
     {
-        $this->collCharactersPartial = $v;
+        $this->collHerosPartial = $v;
     }
 
     /**
-     * Initializes the collCharacters collection.
+     * Initializes the collHeros collection.
      *
-     * By default this just sets the collCharacters collection to an empty array (like clearcollCharacters());
+     * By default this just sets the collHeros collection to an empty array (like clearcollHeros());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1180,20 +1180,20 @@ abstract class User implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initCharacters($overrideExisting = true)
+    public function initHeros($overrideExisting = true)
     {
-        if (null !== $this->collCharacters && !$overrideExisting) {
+        if (null !== $this->collHeros && !$overrideExisting) {
             return;
         }
 
-        $collectionClassName = CharacterTableMap::getTableMap()->getCollectionClassName();
+        $collectionClassName = HeroTableMap::getTableMap()->getCollectionClassName();
 
-        $this->collCharacters = new $collectionClassName;
-        $this->collCharacters->setModel('\Kantaria\Models\Character');
+        $this->collHeros = new $collectionClassName;
+        $this->collHeros->setModel('\Kantaria\Models\Hero');
     }
 
     /**
-     * Gets an array of ChildCharacter objects which contain a foreign key that references this object.
+     * Gets an array of ChildHero objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1203,108 +1203,108 @@ abstract class User implements ActiveRecordInterface
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildCharacter[] List of ChildCharacter objects
+     * @return ObjectCollection|ChildHero[] List of ChildHero objects
      * @throws PropelException
      */
-    public function getCharacters(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getHeros(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collCharactersPartial && !$this->isNew();
-        if (null === $this->collCharacters || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collCharacters) {
+        $partial = $this->collHerosPartial && !$this->isNew();
+        if (null === $this->collHeros || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collHeros) {
                 // return empty collection
-                $this->initCharacters();
+                $this->initHeros();
             } else {
-                $collCharacters = ChildCharacterQuery::create(null, $criteria)
+                $collHeros = ChildHeroQuery::create(null, $criteria)
                     ->filterByUser($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collCharactersPartial && count($collCharacters)) {
-                        $this->initCharacters(false);
+                    if (false !== $this->collHerosPartial && count($collHeros)) {
+                        $this->initHeros(false);
 
-                        foreach ($collCharacters as $obj) {
-                            if (false == $this->collCharacters->contains($obj)) {
-                                $this->collCharacters->append($obj);
+                        foreach ($collHeros as $obj) {
+                            if (false == $this->collHeros->contains($obj)) {
+                                $this->collHeros->append($obj);
                             }
                         }
 
-                        $this->collCharactersPartial = true;
+                        $this->collHerosPartial = true;
                     }
 
-                    return $collCharacters;
+                    return $collHeros;
                 }
 
-                if ($partial && $this->collCharacters) {
-                    foreach ($this->collCharacters as $obj) {
+                if ($partial && $this->collHeros) {
+                    foreach ($this->collHeros as $obj) {
                         if ($obj->isNew()) {
-                            $collCharacters[] = $obj;
+                            $collHeros[] = $obj;
                         }
                     }
                 }
 
-                $this->collCharacters = $collCharacters;
-                $this->collCharactersPartial = false;
+                $this->collHeros = $collHeros;
+                $this->collHerosPartial = false;
             }
         }
 
-        return $this->collCharacters;
+        return $this->collHeros;
     }
 
     /**
-     * Sets a collection of ChildCharacter objects related by a one-to-many relationship
+     * Sets a collection of ChildHero objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $characters A Propel collection.
+     * @param      Collection $heros A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
      * @return $this|ChildUser The current object (for fluent API support)
      */
-    public function setCharacters(Collection $characters, ConnectionInterface $con = null)
+    public function setHeros(Collection $heros, ConnectionInterface $con = null)
     {
-        /** @var ChildCharacter[] $charactersToDelete */
-        $charactersToDelete = $this->getCharacters(new Criteria(), $con)->diff($characters);
+        /** @var ChildHero[] $herosToDelete */
+        $herosToDelete = $this->getHeros(new Criteria(), $con)->diff($heros);
 
 
-        $this->charactersScheduledForDeletion = $charactersToDelete;
+        $this->herosScheduledForDeletion = $herosToDelete;
 
-        foreach ($charactersToDelete as $characterRemoved) {
-            $characterRemoved->setUser(null);
+        foreach ($herosToDelete as $heroRemoved) {
+            $heroRemoved->setUser(null);
         }
 
-        $this->collCharacters = null;
-        foreach ($characters as $character) {
-            $this->addCharacter($character);
+        $this->collHeros = null;
+        foreach ($heros as $hero) {
+            $this->addHero($hero);
         }
 
-        $this->collCharacters = $characters;
-        $this->collCharactersPartial = false;
+        $this->collHeros = $heros;
+        $this->collHerosPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Character objects.
+     * Returns the number of related Hero objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related Character objects.
+     * @return int             Count of related Hero objects.
      * @throws PropelException
      */
-    public function countCharacters(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countHeros(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collCharactersPartial && !$this->isNew();
-        if (null === $this->collCharacters || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collCharacters) {
+        $partial = $this->collHerosPartial && !$this->isNew();
+        if (null === $this->collHeros || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collHeros) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getCharacters());
+                return count($this->getHeros());
             }
 
-            $query = ChildCharacterQuery::create(null, $criteria);
+            $query = ChildHeroQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -1314,28 +1314,28 @@ abstract class User implements ActiveRecordInterface
                 ->count($con);
         }
 
-        return count($this->collCharacters);
+        return count($this->collHeros);
     }
 
     /**
-     * Method called to associate a ChildCharacter object to this object
-     * through the ChildCharacter foreign key attribute.
+     * Method called to associate a ChildHero object to this object
+     * through the ChildHero foreign key attribute.
      *
-     * @param  ChildCharacter $l ChildCharacter
+     * @param  ChildHero $l ChildHero
      * @return $this|\Kantaria\Models\User The current object (for fluent API support)
      */
-    public function addCharacter(ChildCharacter $l)
+    public function addHero(ChildHero $l)
     {
-        if ($this->collCharacters === null) {
-            $this->initCharacters();
-            $this->collCharactersPartial = true;
+        if ($this->collHeros === null) {
+            $this->initHeros();
+            $this->collHerosPartial = true;
         }
 
-        if (!$this->collCharacters->contains($l)) {
-            $this->doAddCharacter($l);
+        if (!$this->collHeros->contains($l)) {
+            $this->doAddHero($l);
 
-            if ($this->charactersScheduledForDeletion and $this->charactersScheduledForDeletion->contains($l)) {
-                $this->charactersScheduledForDeletion->remove($this->charactersScheduledForDeletion->search($l));
+            if ($this->herosScheduledForDeletion and $this->herosScheduledForDeletion->contains($l)) {
+                $this->herosScheduledForDeletion->remove($this->herosScheduledForDeletion->search($l));
             }
         }
 
@@ -1343,29 +1343,29 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * @param ChildCharacter $character The ChildCharacter object to add.
+     * @param ChildHero $hero The ChildHero object to add.
      */
-    protected function doAddCharacter(ChildCharacter $character)
+    protected function doAddHero(ChildHero $hero)
     {
-        $this->collCharacters[]= $character;
-        $character->setUser($this);
+        $this->collHeros[]= $hero;
+        $hero->setUser($this);
     }
 
     /**
-     * @param  ChildCharacter $character The ChildCharacter object to remove.
+     * @param  ChildHero $hero The ChildHero object to remove.
      * @return $this|ChildUser The current object (for fluent API support)
      */
-    public function removeCharacter(ChildCharacter $character)
+    public function removeHero(ChildHero $hero)
     {
-        if ($this->getCharacters()->contains($character)) {
-            $pos = $this->collCharacters->search($character);
-            $this->collCharacters->remove($pos);
-            if (null === $this->charactersScheduledForDeletion) {
-                $this->charactersScheduledForDeletion = clone $this->collCharacters;
-                $this->charactersScheduledForDeletion->clear();
+        if ($this->getHeros()->contains($hero)) {
+            $pos = $this->collHeros->search($hero);
+            $this->collHeros->remove($pos);
+            if (null === $this->herosScheduledForDeletion) {
+                $this->herosScheduledForDeletion = clone $this->collHeros;
+                $this->herosScheduledForDeletion->clear();
             }
-            $this->charactersScheduledForDeletion[]= clone $character;
-            $character->setUser(null);
+            $this->herosScheduledForDeletion[]= clone $hero;
+            $hero->setUser(null);
         }
 
         return $this;
@@ -1399,14 +1399,14 @@ abstract class User implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collCharacters) {
-                foreach ($this->collCharacters as $o) {
+            if ($this->collHeros) {
+                foreach ($this->collHeros as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        $this->collCharacters = null;
+        $this->collHeros = null;
     }
 
     /**
@@ -1465,8 +1465,8 @@ abstract class User implements ActiveRecordInterface
                 $failureMap->addAll($retval);
             }
 
-            if (null !== $this->collCharacters) {
-                foreach ($this->collCharacters as $referrerFK) {
+            if (null !== $this->collHeros) {
+                foreach ($this->collHeros as $referrerFK) {
                     if (method_exists($referrerFK, 'validate')) {
                         if (!$referrerFK->validate($validator)) {
                             $failureMap->addAll($referrerFK->getValidationFailures());

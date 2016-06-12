@@ -2,8 +2,8 @@
 
 namespace Kantaria\Models\Map;
 
-use Kantaria\Models\Quest;
-use Kantaria\Models\QuestQuery;
+use Kantaria\Models\Hero;
+use Kantaria\Models\HeroQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'quest' table.
+ * This class defines the structure of the 'hero' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class QuestTableMap extends TableMap
+class HeroTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class QuestTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Kantaria.Models.Map.QuestTableMap';
+    const CLASS_NAME = 'Kantaria.Models.Map.HeroTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class QuestTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'quest';
+    const TABLE_NAME = 'hero';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Kantaria\\Models\\Quest';
+    const OM_CLASS = '\\Kantaria\\Models\\Hero';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Kantaria.Models.Quest';
+    const CLASS_DEFAULT = 'Kantaria.Models.Hero';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 10;
 
     /**
      * The number of lazy-loaded columns
@@ -69,47 +69,57 @@ class QuestTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'quest.id';
+    const COL_ID = 'hero.id';
 
     /**
-     * the column name for the hero_id field
+     * the column name for the user_id field
      */
-    const COL_HERO_ID = 'quest.hero_id';
+    const COL_USER_ID = 'hero.user_id';
 
     /**
-     * the column name for the quest field
+     * the column name for the first_name field
      */
-    const COL_QUEST = 'quest.quest';
+    const COL_FIRST_NAME = 'hero.first_name';
 
     /**
-     * the column name for the completed field
+     * the column name for the last_name field
      */
-    const COL_COMPLETED = 'quest.completed';
+    const COL_LAST_NAME = 'hero.last_name';
 
     /**
-     * the column name for the task1 field
+     * the column name for the health field
      */
-    const COL_TASK1 = 'quest.task1';
+    const COL_HEALTH = 'hero.health';
 
     /**
-     * the column name for the task2 field
+     * the column name for the oxygen field
      */
-    const COL_TASK2 = 'quest.task2';
+    const COL_OXYGEN = 'hero.oxygen';
 
     /**
-     * the column name for the task3 field
+     * the column name for the food field
      */
-    const COL_TASK3 = 'quest.task3';
+    const COL_FOOD = 'hero.food';
 
     /**
-     * the column name for the task4 field
+     * the column name for the posx field
      */
-    const COL_TASK4 = 'quest.task4';
+    const COL_POSX = 'hero.posx';
+
+    /**
+     * the column name for the posy field
+     */
+    const COL_POSY = 'hero.posy';
+
+    /**
+     * the column name for the posz field
+     */
+    const COL_POSZ = 'hero.posz';
 
     /**
      * The default string format for model objects of the related table
@@ -123,11 +133,11 @@ class QuestTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'HeroId', 'Quest', 'Completed', 'Task1', 'Task2', 'Task3', 'Task4', ),
-        self::TYPE_CAMELNAME     => array('id', 'heroId', 'quest', 'completed', 'task1', 'task2', 'task3', 'task4', ),
-        self::TYPE_COLNAME       => array(QuestTableMap::COL_ID, QuestTableMap::COL_HERO_ID, QuestTableMap::COL_QUEST, QuestTableMap::COL_COMPLETED, QuestTableMap::COL_TASK1, QuestTableMap::COL_TASK2, QuestTableMap::COL_TASK3, QuestTableMap::COL_TASK4, ),
-        self::TYPE_FIELDNAME     => array('id', 'hero_id', 'quest', 'completed', 'task1', 'task2', 'task3', 'task4', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'UserId', 'FirstName', 'LastName', 'Health', 'Oxygen', 'Food', 'Posx', 'Posy', 'Posz', ),
+        self::TYPE_CAMELNAME     => array('id', 'userId', 'firstName', 'lastName', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
+        self::TYPE_COLNAME       => array(HeroTableMap::COL_ID, HeroTableMap::COL_USER_ID, HeroTableMap::COL_FIRST_NAME, HeroTableMap::COL_LAST_NAME, HeroTableMap::COL_HEALTH, HeroTableMap::COL_OXYGEN, HeroTableMap::COL_FOOD, HeroTableMap::COL_POSX, HeroTableMap::COL_POSY, HeroTableMap::COL_POSZ, ),
+        self::TYPE_FIELDNAME     => array('id', 'user_id', 'first_name', 'last_name', 'health', 'oxygen', 'food', 'posx', 'posy', 'posz', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -137,11 +147,11 @@ class QuestTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'HeroId' => 1, 'Quest' => 2, 'Completed' => 3, 'Task1' => 4, 'Task2' => 5, 'Task3' => 6, 'Task4' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'heroId' => 1, 'quest' => 2, 'completed' => 3, 'task1' => 4, 'task2' => 5, 'task3' => 6, 'task4' => 7, ),
-        self::TYPE_COLNAME       => array(QuestTableMap::COL_ID => 0, QuestTableMap::COL_HERO_ID => 1, QuestTableMap::COL_QUEST => 2, QuestTableMap::COL_COMPLETED => 3, QuestTableMap::COL_TASK1 => 4, QuestTableMap::COL_TASK2 => 5, QuestTableMap::COL_TASK3 => 6, QuestTableMap::COL_TASK4 => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'hero_id' => 1, 'quest' => 2, 'completed' => 3, 'task1' => 4, 'task2' => 5, 'task3' => 6, 'task4' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'FirstName' => 2, 'LastName' => 3, 'Health' => 4, 'Oxygen' => 5, 'Food' => 6, 'Posx' => 7, 'Posy' => 8, 'Posz' => 9, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'firstName' => 2, 'lastName' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
+        self::TYPE_COLNAME       => array(HeroTableMap::COL_ID => 0, HeroTableMap::COL_USER_ID => 1, HeroTableMap::COL_FIRST_NAME => 2, HeroTableMap::COL_LAST_NAME => 3, HeroTableMap::COL_HEALTH => 4, HeroTableMap::COL_OXYGEN => 5, HeroTableMap::COL_FOOD => 6, HeroTableMap::COL_POSX => 7, HeroTableMap::COL_POSY => 8, HeroTableMap::COL_POSZ => 9, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'first_name' => 2, 'last_name' => 3, 'health' => 4, 'oxygen' => 5, 'food' => 6, 'posx' => 7, 'posy' => 8, 'posz' => 9, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -154,21 +164,23 @@ class QuestTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('quest');
-        $this->setPhpName('Quest');
+        $this->setName('hero');
+        $this->setPhpName('Hero');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Kantaria\\Models\\Quest');
+        $this->setClassName('\\Kantaria\\Models\\Hero');
         $this->setPackage('Kantaria.Models');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('hero_id', 'HeroId', 'INTEGER', 'hero', 'id', true, null, null);
-        $this->addColumn('quest', 'Quest', 'VARCHAR', true, 70, null);
-        $this->addColumn('completed', 'Completed', 'TINYINT', true, null, null);
-        $this->addColumn('task1', 'Task1', 'INTEGER', true, null, null);
-        $this->addColumn('task2', 'Task2', 'INTEGER', true, null, null);
-        $this->addColumn('task3', 'Task3', 'INTEGER', true, null, null);
-        $this->addColumn('task4', 'Task4', 'INTEGER', true, null, null);
+        $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'user', 'id', true, null, null);
+        $this->addColumn('first_name', 'FirstName', 'VARCHAR', true, 128, null);
+        $this->addColumn('last_name', 'LastName', 'VARCHAR', true, 128, null);
+        $this->addColumn('health', 'Health', 'INTEGER', false, null, null);
+        $this->addColumn('oxygen', 'Oxygen', 'INTEGER', false, null, null);
+        $this->addColumn('food', 'Food', 'INTEGER', false, null, null);
+        $this->addColumn('posx', 'Posx', 'INTEGER', false, null, null);
+        $this->addColumn('posy', 'Posy', 'INTEGER', false, null, null);
+        $this->addColumn('posz', 'Posz', 'INTEGER', false, null, null);
     } // initialize()
 
     /**
@@ -176,13 +188,27 @@ class QuestTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Hero', '\\Kantaria\\Models\\Hero', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('User', '\\Kantaria\\Models\\User', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':user_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
+        $this->addRelation('Inventory', '\\Kantaria\\Models\\Inventory', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':hero_id',
     1 => ':id',
   ),
-), null, null, null, false);
+), null, null, 'Inventories', false);
+        $this->addRelation('Quest', '\\Kantaria\\Models\\Quest', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':hero_id',
+    1 => ':id',
+  ),
+), null, null, 'Quests', false);
     } // buildRelations()
 
     /**
@@ -194,7 +220,7 @@ class QuestTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('heroIdNotNull' => array ('column' => 'hero_id','validator' => 'NotNull',), 'questNotNull' => array ('column' => 'quest','validator' => 'NotNull',), 'completedNotNull' => array ('column' => 'completed','validator' => 'NotNull',), 'task1NotNull' => array ('column' => 'task1','validator' => 'NotNull',), 'task2NotNull' => array ('column' => 'task2','validator' => 'NotNull',), 'task3NotNull' => array ('column' => 'task3','validator' => 'NotNull',), 'task4NotNull' => array ('column' => 'task4','validator' => 'NotNull',), ),
+            'validate' => array('userIdNotNull' => array ('column' => 'user_id','validator' => 'NotNull',), 'firstNameNotNull' => array ('column' => 'first_name','validator' => 'NotNull',), 'lastNameNotNull' => array ('column' => 'last_name','validator' => 'NotNull',), ),
         );
     } // getBehaviors()
 
@@ -255,7 +281,7 @@ class QuestTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? QuestTableMap::CLASS_DEFAULT : QuestTableMap::OM_CLASS;
+        return $withPrefix ? HeroTableMap::CLASS_DEFAULT : HeroTableMap::OM_CLASS;
     }
 
     /**
@@ -269,22 +295,22 @@ class QuestTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Quest object, last column rank)
+     * @return array           (Hero object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = QuestTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = QuestTableMap::getInstanceFromPool($key))) {
+        $key = HeroTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = HeroTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + QuestTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + HeroTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = QuestTableMap::OM_CLASS;
-            /** @var Quest $obj */
+            $cls = HeroTableMap::OM_CLASS;
+            /** @var Hero $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            QuestTableMap::addInstanceToPool($obj, $key);
+            HeroTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -307,18 +333,18 @@ class QuestTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = QuestTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = QuestTableMap::getInstanceFromPool($key))) {
+            $key = HeroTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = HeroTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Quest $obj */
+                /** @var Hero $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                QuestTableMap::addInstanceToPool($obj, $key);
+                HeroTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -339,23 +365,27 @@ class QuestTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(QuestTableMap::COL_ID);
-            $criteria->addSelectColumn(QuestTableMap::COL_HERO_ID);
-            $criteria->addSelectColumn(QuestTableMap::COL_QUEST);
-            $criteria->addSelectColumn(QuestTableMap::COL_COMPLETED);
-            $criteria->addSelectColumn(QuestTableMap::COL_TASK1);
-            $criteria->addSelectColumn(QuestTableMap::COL_TASK2);
-            $criteria->addSelectColumn(QuestTableMap::COL_TASK3);
-            $criteria->addSelectColumn(QuestTableMap::COL_TASK4);
+            $criteria->addSelectColumn(HeroTableMap::COL_ID);
+            $criteria->addSelectColumn(HeroTableMap::COL_USER_ID);
+            $criteria->addSelectColumn(HeroTableMap::COL_FIRST_NAME);
+            $criteria->addSelectColumn(HeroTableMap::COL_LAST_NAME);
+            $criteria->addSelectColumn(HeroTableMap::COL_HEALTH);
+            $criteria->addSelectColumn(HeroTableMap::COL_OXYGEN);
+            $criteria->addSelectColumn(HeroTableMap::COL_FOOD);
+            $criteria->addSelectColumn(HeroTableMap::COL_POSX);
+            $criteria->addSelectColumn(HeroTableMap::COL_POSY);
+            $criteria->addSelectColumn(HeroTableMap::COL_POSZ);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.hero_id');
-            $criteria->addSelectColumn($alias . '.quest');
-            $criteria->addSelectColumn($alias . '.completed');
-            $criteria->addSelectColumn($alias . '.task1');
-            $criteria->addSelectColumn($alias . '.task2');
-            $criteria->addSelectColumn($alias . '.task3');
-            $criteria->addSelectColumn($alias . '.task4');
+            $criteria->addSelectColumn($alias . '.user_id');
+            $criteria->addSelectColumn($alias . '.first_name');
+            $criteria->addSelectColumn($alias . '.last_name');
+            $criteria->addSelectColumn($alias . '.health');
+            $criteria->addSelectColumn($alias . '.oxygen');
+            $criteria->addSelectColumn($alias . '.food');
+            $criteria->addSelectColumn($alias . '.posx');
+            $criteria->addSelectColumn($alias . '.posy');
+            $criteria->addSelectColumn($alias . '.posz');
         }
     }
 
@@ -368,7 +398,7 @@ class QuestTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(QuestTableMap::DATABASE_NAME)->getTable(QuestTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(HeroTableMap::DATABASE_NAME)->getTable(HeroTableMap::TABLE_NAME);
     }
 
     /**
@@ -376,16 +406,16 @@ class QuestTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(QuestTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(QuestTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new QuestTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(HeroTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(HeroTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new HeroTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Quest or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Hero or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Quest object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Hero object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -396,27 +426,27 @@ class QuestTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(QuestTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HeroTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Kantaria\Models\Quest) { // it's a model object
+        } elseif ($values instanceof \Kantaria\Models\Hero) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(QuestTableMap::DATABASE_NAME);
-            $criteria->add(QuestTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(HeroTableMap::DATABASE_NAME);
+            $criteria->add(HeroTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = QuestQuery::create()->mergeWith($criteria);
+        $query = HeroQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            QuestTableMap::clearInstancePool();
+            HeroTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                QuestTableMap::removeInstanceFromPool($singleval);
+                HeroTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -424,20 +454,20 @@ class QuestTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the quest table.
+     * Deletes all rows from the hero table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return QuestQuery::create()->doDeleteAll($con);
+        return HeroQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Quest or Criteria object.
+     * Performs an INSERT on the database, given a Hero or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Quest object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Hero object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -446,22 +476,22 @@ class QuestTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(QuestTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HeroTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Quest object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Hero object
         }
 
-        if ($criteria->containsKey(QuestTableMap::COL_ID) && $criteria->keyContainsValue(QuestTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.QuestTableMap::COL_ID.')');
+        if ($criteria->containsKey(HeroTableMap::COL_ID) && $criteria->keyContainsValue(HeroTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.HeroTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = QuestQuery::create()->mergeWith($criteria);
+        $query = HeroQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -470,7 +500,7 @@ class QuestTableMap extends TableMap
         });
     }
 
-} // QuestTableMap
+} // HeroTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-QuestTableMap::buildTableMap();
+HeroTableMap::buildTableMap();

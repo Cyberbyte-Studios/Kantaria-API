@@ -77,9 +77,9 @@ class InventoryTableMap extends TableMap
     const COL_ID = 'inventory.id';
 
     /**
-     * the column name for the character_id field
+     * the column name for the hero_id field
      */
-    const COL_CHARACTER_ID = 'inventory.character_id';
+    const COL_HERO_ID = 'inventory.hero_id';
 
     /**
      * the column name for the slot field
@@ -108,10 +108,10 @@ class InventoryTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'CharacterId', 'Slot', 'Item', 'Amount', ),
-        self::TYPE_CAMELNAME     => array('id', 'characterId', 'slot', 'item', 'amount', ),
-        self::TYPE_COLNAME       => array(InventoryTableMap::COL_ID, InventoryTableMap::COL_CHARACTER_ID, InventoryTableMap::COL_SLOT, InventoryTableMap::COL_ITEM, InventoryTableMap::COL_AMOUNT, ),
-        self::TYPE_FIELDNAME     => array('id', 'character_id', 'slot', 'item', 'amount', ),
+        self::TYPE_PHPNAME       => array('Id', 'HeroId', 'Slot', 'Item', 'Amount', ),
+        self::TYPE_CAMELNAME     => array('id', 'heroId', 'slot', 'item', 'amount', ),
+        self::TYPE_COLNAME       => array(InventoryTableMap::COL_ID, InventoryTableMap::COL_HERO_ID, InventoryTableMap::COL_SLOT, InventoryTableMap::COL_ITEM, InventoryTableMap::COL_AMOUNT, ),
+        self::TYPE_FIELDNAME     => array('id', 'hero_id', 'slot', 'item', 'amount', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -122,10 +122,10 @@ class InventoryTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'CharacterId' => 1, 'Slot' => 2, 'Item' => 3, 'Amount' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'characterId' => 1, 'slot' => 2, 'item' => 3, 'amount' => 4, ),
-        self::TYPE_COLNAME       => array(InventoryTableMap::COL_ID => 0, InventoryTableMap::COL_CHARACTER_ID => 1, InventoryTableMap::COL_SLOT => 2, InventoryTableMap::COL_ITEM => 3, InventoryTableMap::COL_AMOUNT => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'character_id' => 1, 'slot' => 2, 'item' => 3, 'amount' => 4, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'HeroId' => 1, 'Slot' => 2, 'Item' => 3, 'Amount' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'heroId' => 1, 'slot' => 2, 'item' => 3, 'amount' => 4, ),
+        self::TYPE_COLNAME       => array(InventoryTableMap::COL_ID => 0, InventoryTableMap::COL_HERO_ID => 1, InventoryTableMap::COL_SLOT => 2, InventoryTableMap::COL_ITEM => 3, InventoryTableMap::COL_AMOUNT => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'hero_id' => 1, 'slot' => 2, 'item' => 3, 'amount' => 4, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
@@ -147,7 +147,7 @@ class InventoryTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('character_id', 'CharacterId', 'INTEGER', 'character', 'id', true, null, null);
+        $this->addForeignKey('hero_id', 'HeroId', 'INTEGER', 'hero', 'id', true, null, null);
         $this->addColumn('slot', 'Slot', 'INTEGER', true, null, null);
         $this->addColumn('item', 'Item', 'VARCHAR', true, 100, null);
         $this->addColumn('amount', 'Amount', 'INTEGER', true, null, null);
@@ -158,10 +158,10 @@ class InventoryTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Character', '\\Kantaria\\Models\\Character', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('Hero', '\\Kantaria\\Models\\Hero', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':character_id',
+    0 => ':hero_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -176,7 +176,7 @@ class InventoryTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('characterIdNotNull' => array ('column' => 'character_id','validator' => 'NotNull',), 'slotNotNull' => array ('column' => 'slot','validator' => 'NotNull',), 'itemNotNull' => array ('column' => 'item','validator' => 'NotNull',), 'itemLength' => array ('column' => 'item','validator' => 'Length','options' => array ('min' => 1,'max' => 100,),), 'amountNotNull' => array ('column' => 'amount','validator' => 'NotNull',), ),
+            'validate' => array('heroIdNotNull' => array ('column' => 'hero_id','validator' => 'NotNull',), 'slotNotNull' => array ('column' => 'slot','validator' => 'NotNull',), 'itemNotNull' => array ('column' => 'item','validator' => 'NotNull',), 'itemLength' => array ('column' => 'item','validator' => 'Length','options' => array ('min' => 1,'max' => 100,),), 'amountNotNull' => array ('column' => 'amount','validator' => 'NotNull',), ),
         );
     } // getBehaviors()
 
@@ -322,13 +322,13 @@ class InventoryTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(InventoryTableMap::COL_ID);
-            $criteria->addSelectColumn(InventoryTableMap::COL_CHARACTER_ID);
+            $criteria->addSelectColumn(InventoryTableMap::COL_HERO_ID);
             $criteria->addSelectColumn(InventoryTableMap::COL_SLOT);
             $criteria->addSelectColumn(InventoryTableMap::COL_ITEM);
             $criteria->addSelectColumn(InventoryTableMap::COL_AMOUNT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.character_id');
+            $criteria->addSelectColumn($alias . '.hero_id');
             $criteria->addSelectColumn($alias . '.slot');
             $criteria->addSelectColumn($alias . '.item');
             $criteria->addSelectColumn($alias . '.amount');

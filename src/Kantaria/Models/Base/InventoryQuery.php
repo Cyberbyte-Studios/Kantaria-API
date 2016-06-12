@@ -21,13 +21,13 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildInventoryQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildInventoryQuery orderByCharacterId($order = Criteria::ASC) Order by the character_id column
+ * @method     ChildInventoryQuery orderByHeroId($order = Criteria::ASC) Order by the hero_id column
  * @method     ChildInventoryQuery orderBySlot($order = Criteria::ASC) Order by the slot column
  * @method     ChildInventoryQuery orderByItem($order = Criteria::ASC) Order by the item column
  * @method     ChildInventoryQuery orderByAmount($order = Criteria::ASC) Order by the amount column
  *
  * @method     ChildInventoryQuery groupById() Group by the id column
- * @method     ChildInventoryQuery groupByCharacterId() Group by the character_id column
+ * @method     ChildInventoryQuery groupByHeroId() Group by the hero_id column
  * @method     ChildInventoryQuery groupBySlot() Group by the slot column
  * @method     ChildInventoryQuery groupByItem() Group by the item column
  * @method     ChildInventoryQuery groupByAmount() Group by the amount column
@@ -40,23 +40,23 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInventoryQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildInventoryQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildInventoryQuery leftJoinCharacter($relationAlias = null) Adds a LEFT JOIN clause to the query using the Character relation
- * @method     ChildInventoryQuery rightJoinCharacter($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Character relation
- * @method     ChildInventoryQuery innerJoinCharacter($relationAlias = null) Adds a INNER JOIN clause to the query using the Character relation
+ * @method     ChildInventoryQuery leftJoinHero($relationAlias = null) Adds a LEFT JOIN clause to the query using the Hero relation
+ * @method     ChildInventoryQuery rightJoinHero($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Hero relation
+ * @method     ChildInventoryQuery innerJoinHero($relationAlias = null) Adds a INNER JOIN clause to the query using the Hero relation
  *
- * @method     ChildInventoryQuery joinWithCharacter($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Character relation
+ * @method     ChildInventoryQuery joinWithHero($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Hero relation
  *
- * @method     ChildInventoryQuery leftJoinWithCharacter() Adds a LEFT JOIN clause and with to the query using the Character relation
- * @method     ChildInventoryQuery rightJoinWithCharacter() Adds a RIGHT JOIN clause and with to the query using the Character relation
- * @method     ChildInventoryQuery innerJoinWithCharacter() Adds a INNER JOIN clause and with to the query using the Character relation
+ * @method     ChildInventoryQuery leftJoinWithHero() Adds a LEFT JOIN clause and with to the query using the Hero relation
+ * @method     ChildInventoryQuery rightJoinWithHero() Adds a RIGHT JOIN clause and with to the query using the Hero relation
+ * @method     ChildInventoryQuery innerJoinWithHero() Adds a INNER JOIN clause and with to the query using the Hero relation
  *
- * @method     \Kantaria\Models\CharacterQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Kantaria\Models\HeroQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildInventory findOne(ConnectionInterface $con = null) Return the first ChildInventory matching the query
  * @method     ChildInventory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildInventory matching the query, or a new ChildInventory object populated from the query conditions when no match is found
  *
  * @method     ChildInventory findOneById(int $id) Return the first ChildInventory filtered by the id column
- * @method     ChildInventory findOneByCharacterId(int $character_id) Return the first ChildInventory filtered by the character_id column
+ * @method     ChildInventory findOneByHeroId(int $hero_id) Return the first ChildInventory filtered by the hero_id column
  * @method     ChildInventory findOneBySlot(int $slot) Return the first ChildInventory filtered by the slot column
  * @method     ChildInventory findOneByItem(string $item) Return the first ChildInventory filtered by the item column
  * @method     ChildInventory findOneByAmount(int $amount) Return the first ChildInventory filtered by the amount column *
@@ -65,14 +65,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildInventory requireOne(ConnectionInterface $con = null) Return the first ChildInventory matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildInventory requireOneById(int $id) Return the first ChildInventory filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildInventory requireOneByCharacterId(int $character_id) Return the first ChildInventory filtered by the character_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildInventory requireOneByHeroId(int $hero_id) Return the first ChildInventory filtered by the hero_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildInventory requireOneBySlot(int $slot) Return the first ChildInventory filtered by the slot column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildInventory requireOneByItem(string $item) Return the first ChildInventory filtered by the item column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildInventory requireOneByAmount(int $amount) Return the first ChildInventory filtered by the amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildInventory[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildInventory objects based on current ModelCriteria
  * @method     ChildInventory[]|ObjectCollection findById(int $id) Return ChildInventory objects filtered by the id column
- * @method     ChildInventory[]|ObjectCollection findByCharacterId(int $character_id) Return ChildInventory objects filtered by the character_id column
+ * @method     ChildInventory[]|ObjectCollection findByHeroId(int $hero_id) Return ChildInventory objects filtered by the hero_id column
  * @method     ChildInventory[]|ObjectCollection findBySlot(int $slot) Return ChildInventory objects filtered by the slot column
  * @method     ChildInventory[]|ObjectCollection findByItem(string $item) Return ChildInventory objects filtered by the item column
  * @method     ChildInventory[]|ObjectCollection findByAmount(int $amount) Return ChildInventory objects filtered by the amount column
@@ -174,7 +174,7 @@ abstract class InventoryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, character_id, slot, item, amount FROM inventory WHERE id = :p0';
+        $sql = 'SELECT id, hero_id, slot, item, amount FROM inventory WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -306,18 +306,18 @@ abstract class InventoryQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the character_id column
+     * Filter the query on the hero_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByCharacterId(1234); // WHERE character_id = 1234
-     * $query->filterByCharacterId(array(12, 34)); // WHERE character_id IN (12, 34)
-     * $query->filterByCharacterId(array('min' => 12)); // WHERE character_id > 12
+     * $query->filterByHeroId(1234); // WHERE hero_id = 1234
+     * $query->filterByHeroId(array(12, 34)); // WHERE hero_id IN (12, 34)
+     * $query->filterByHeroId(array('min' => 12)); // WHERE hero_id > 12
      * </code>
      *
-     * @see       filterByCharacter()
+     * @see       filterByHero()
      *
-     * @param     mixed $characterId The value to use as filter.
+     * @param     mixed $heroId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -325,16 +325,16 @@ abstract class InventoryQuery extends ModelCriteria
      *
      * @return $this|ChildInventoryQuery The current query, for fluid interface
      */
-    public function filterByCharacterId($characterId = null, $comparison = null)
+    public function filterByHeroId($heroId = null, $comparison = null)
     {
-        if (is_array($characterId)) {
+        if (is_array($heroId)) {
             $useMinMax = false;
-            if (isset($characterId['min'])) {
-                $this->addUsingAlias(InventoryTableMap::COL_CHARACTER_ID, $characterId['min'], Criteria::GREATER_EQUAL);
+            if (isset($heroId['min'])) {
+                $this->addUsingAlias(InventoryTableMap::COL_HERO_ID, $heroId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($characterId['max'])) {
-                $this->addUsingAlias(InventoryTableMap::COL_CHARACTER_ID, $characterId['max'], Criteria::LESS_EQUAL);
+            if (isset($heroId['max'])) {
+                $this->addUsingAlias(InventoryTableMap::COL_HERO_ID, $heroId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -345,7 +345,7 @@ abstract class InventoryQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(InventoryTableMap::COL_CHARACTER_ID, $characterId, $comparison);
+        return $this->addUsingAlias(InventoryTableMap::COL_HERO_ID, $heroId, $comparison);
     }
 
     /**
@@ -457,44 +457,44 @@ abstract class InventoryQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Kantaria\Models\Character object
+     * Filter the query by a related \Kantaria\Models\Hero object
      *
-     * @param \Kantaria\Models\Character|ObjectCollection $character The related object(s) to use as filter
+     * @param \Kantaria\Models\Hero|ObjectCollection $hero The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return ChildInventoryQuery The current query, for fluid interface
      */
-    public function filterByCharacter($character, $comparison = null)
+    public function filterByHero($hero, $comparison = null)
     {
-        if ($character instanceof \Kantaria\Models\Character) {
+        if ($hero instanceof \Kantaria\Models\Hero) {
             return $this
-                ->addUsingAlias(InventoryTableMap::COL_CHARACTER_ID, $character->getId(), $comparison);
-        } elseif ($character instanceof ObjectCollection) {
+                ->addUsingAlias(InventoryTableMap::COL_HERO_ID, $hero->getId(), $comparison);
+        } elseif ($hero instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(InventoryTableMap::COL_CHARACTER_ID, $character->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(InventoryTableMap::COL_HERO_ID, $hero->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByCharacter() only accepts arguments of type \Kantaria\Models\Character or Collection');
+            throw new PropelException('filterByHero() only accepts arguments of type \Kantaria\Models\Hero or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Character relation
+     * Adds a JOIN clause to the query using the Hero relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildInventoryQuery The current query, for fluid interface
      */
-    public function joinCharacter($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinHero($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Character');
+        $relationMap = $tableMap->getRelation('Hero');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -509,14 +509,14 @@ abstract class InventoryQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Character');
+            $this->addJoinObject($join, 'Hero');
         }
 
         return $this;
     }
 
     /**
-     * Use the Character relation Character object
+     * Use the Hero relation Hero object
      *
      * @see useQuery()
      *
@@ -524,13 +524,13 @@ abstract class InventoryQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \Kantaria\Models\CharacterQuery A secondary query class using the current class as primary query
+     * @return \Kantaria\Models\HeroQuery A secondary query class using the current class as primary query
      */
-    public function useCharacterQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useHeroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinCharacter($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Character', '\Kantaria\Models\CharacterQuery');
+            ->joinHero($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Hero', '\Kantaria\Models\HeroQuery');
     }
 
     /**

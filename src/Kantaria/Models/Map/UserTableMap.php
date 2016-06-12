@@ -146,13 +146,13 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Character', '\\Kantaria\\Models\\Character', RelationMap::ONE_TO_MANY, array (
+        $this->addRelation('Hero', '\\Kantaria\\Models\\Hero', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':user_id',
     1 => ':id',
   ),
-), null, null, 'Characters', false);
+), null, null, 'Heros', false);
     } // buildRelations()
 
     /**

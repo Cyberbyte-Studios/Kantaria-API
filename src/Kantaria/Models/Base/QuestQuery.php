@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildQuestQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildQuestQuery orderByCharacterId($order = Criteria::ASC) Order by the character_id column
+ * @method     ChildQuestQuery orderByHeroId($order = Criteria::ASC) Order by the hero_id column
  * @method     ChildQuestQuery orderByQuest($order = Criteria::ASC) Order by the quest column
  * @method     ChildQuestQuery orderByCompleted($order = Criteria::ASC) Order by the completed column
  * @method     ChildQuestQuery orderByTask1($order = Criteria::ASC) Order by the task1 column
@@ -30,7 +30,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildQuestQuery orderByTask4($order = Criteria::ASC) Order by the task4 column
  *
  * @method     ChildQuestQuery groupById() Group by the id column
- * @method     ChildQuestQuery groupByCharacterId() Group by the character_id column
+ * @method     ChildQuestQuery groupByHeroId() Group by the hero_id column
  * @method     ChildQuestQuery groupByQuest() Group by the quest column
  * @method     ChildQuestQuery groupByCompleted() Group by the completed column
  * @method     ChildQuestQuery groupByTask1() Group by the task1 column
@@ -46,23 +46,23 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildQuestQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildQuestQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildQuestQuery leftJoinCharacter($relationAlias = null) Adds a LEFT JOIN clause to the query using the Character relation
- * @method     ChildQuestQuery rightJoinCharacter($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Character relation
- * @method     ChildQuestQuery innerJoinCharacter($relationAlias = null) Adds a INNER JOIN clause to the query using the Character relation
+ * @method     ChildQuestQuery leftJoinHero($relationAlias = null) Adds a LEFT JOIN clause to the query using the Hero relation
+ * @method     ChildQuestQuery rightJoinHero($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Hero relation
+ * @method     ChildQuestQuery innerJoinHero($relationAlias = null) Adds a INNER JOIN clause to the query using the Hero relation
  *
- * @method     ChildQuestQuery joinWithCharacter($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Character relation
+ * @method     ChildQuestQuery joinWithHero($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Hero relation
  *
- * @method     ChildQuestQuery leftJoinWithCharacter() Adds a LEFT JOIN clause and with to the query using the Character relation
- * @method     ChildQuestQuery rightJoinWithCharacter() Adds a RIGHT JOIN clause and with to the query using the Character relation
- * @method     ChildQuestQuery innerJoinWithCharacter() Adds a INNER JOIN clause and with to the query using the Character relation
+ * @method     ChildQuestQuery leftJoinWithHero() Adds a LEFT JOIN clause and with to the query using the Hero relation
+ * @method     ChildQuestQuery rightJoinWithHero() Adds a RIGHT JOIN clause and with to the query using the Hero relation
+ * @method     ChildQuestQuery innerJoinWithHero() Adds a INNER JOIN clause and with to the query using the Hero relation
  *
- * @method     \Kantaria\Models\CharacterQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Kantaria\Models\HeroQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildQuest findOne(ConnectionInterface $con = null) Return the first ChildQuest matching the query
  * @method     ChildQuest findOneOrCreate(ConnectionInterface $con = null) Return the first ChildQuest matching the query, or a new ChildQuest object populated from the query conditions when no match is found
  *
  * @method     ChildQuest findOneById(int $id) Return the first ChildQuest filtered by the id column
- * @method     ChildQuest findOneByCharacterId(int $character_id) Return the first ChildQuest filtered by the character_id column
+ * @method     ChildQuest findOneByHeroId(int $hero_id) Return the first ChildQuest filtered by the hero_id column
  * @method     ChildQuest findOneByQuest(string $quest) Return the first ChildQuest filtered by the quest column
  * @method     ChildQuest findOneByCompleted(int $completed) Return the first ChildQuest filtered by the completed column
  * @method     ChildQuest findOneByTask1(int $task1) Return the first ChildQuest filtered by the task1 column
@@ -74,7 +74,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildQuest requireOne(ConnectionInterface $con = null) Return the first ChildQuest matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildQuest requireOneById(int $id) Return the first ChildQuest filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildQuest requireOneByCharacterId(int $character_id) Return the first ChildQuest filtered by the character_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildQuest requireOneByHeroId(int $hero_id) Return the first ChildQuest filtered by the hero_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildQuest requireOneByQuest(string $quest) Return the first ChildQuest filtered by the quest column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildQuest requireOneByCompleted(int $completed) Return the first ChildQuest filtered by the completed column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildQuest requireOneByTask1(int $task1) Return the first ChildQuest filtered by the task1 column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -84,7 +84,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildQuest[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildQuest objects based on current ModelCriteria
  * @method     ChildQuest[]|ObjectCollection findById(int $id) Return ChildQuest objects filtered by the id column
- * @method     ChildQuest[]|ObjectCollection findByCharacterId(int $character_id) Return ChildQuest objects filtered by the character_id column
+ * @method     ChildQuest[]|ObjectCollection findByHeroId(int $hero_id) Return ChildQuest objects filtered by the hero_id column
  * @method     ChildQuest[]|ObjectCollection findByQuest(string $quest) Return ChildQuest objects filtered by the quest column
  * @method     ChildQuest[]|ObjectCollection findByCompleted(int $completed) Return ChildQuest objects filtered by the completed column
  * @method     ChildQuest[]|ObjectCollection findByTask1(int $task1) Return ChildQuest objects filtered by the task1 column
@@ -189,7 +189,7 @@ abstract class QuestQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, character_id, quest, completed, task1, task2, task3, task4 FROM quest WHERE id = :p0';
+        $sql = 'SELECT id, hero_id, quest, completed, task1, task2, task3, task4 FROM quest WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -321,18 +321,18 @@ abstract class QuestQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the character_id column
+     * Filter the query on the hero_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByCharacterId(1234); // WHERE character_id = 1234
-     * $query->filterByCharacterId(array(12, 34)); // WHERE character_id IN (12, 34)
-     * $query->filterByCharacterId(array('min' => 12)); // WHERE character_id > 12
+     * $query->filterByHeroId(1234); // WHERE hero_id = 1234
+     * $query->filterByHeroId(array(12, 34)); // WHERE hero_id IN (12, 34)
+     * $query->filterByHeroId(array('min' => 12)); // WHERE hero_id > 12
      * </code>
      *
-     * @see       filterByCharacter()
+     * @see       filterByHero()
      *
-     * @param     mixed $characterId The value to use as filter.
+     * @param     mixed $heroId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -340,16 +340,16 @@ abstract class QuestQuery extends ModelCriteria
      *
      * @return $this|ChildQuestQuery The current query, for fluid interface
      */
-    public function filterByCharacterId($characterId = null, $comparison = null)
+    public function filterByHeroId($heroId = null, $comparison = null)
     {
-        if (is_array($characterId)) {
+        if (is_array($heroId)) {
             $useMinMax = false;
-            if (isset($characterId['min'])) {
-                $this->addUsingAlias(QuestTableMap::COL_CHARACTER_ID, $characterId['min'], Criteria::GREATER_EQUAL);
+            if (isset($heroId['min'])) {
+                $this->addUsingAlias(QuestTableMap::COL_HERO_ID, $heroId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($characterId['max'])) {
-                $this->addUsingAlias(QuestTableMap::COL_CHARACTER_ID, $characterId['max'], Criteria::LESS_EQUAL);
+            if (isset($heroId['max'])) {
+                $this->addUsingAlias(QuestTableMap::COL_HERO_ID, $heroId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -360,7 +360,7 @@ abstract class QuestQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(QuestTableMap::COL_CHARACTER_ID, $characterId, $comparison);
+        return $this->addUsingAlias(QuestTableMap::COL_HERO_ID, $heroId, $comparison);
     }
 
     /**
@@ -595,44 +595,44 @@ abstract class QuestQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Kantaria\Models\Character object
+     * Filter the query by a related \Kantaria\Models\Hero object
      *
-     * @param \Kantaria\Models\Character|ObjectCollection $character The related object(s) to use as filter
+     * @param \Kantaria\Models\Hero|ObjectCollection $hero The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return ChildQuestQuery The current query, for fluid interface
      */
-    public function filterByCharacter($character, $comparison = null)
+    public function filterByHero($hero, $comparison = null)
     {
-        if ($character instanceof \Kantaria\Models\Character) {
+        if ($hero instanceof \Kantaria\Models\Hero) {
             return $this
-                ->addUsingAlias(QuestTableMap::COL_CHARACTER_ID, $character->getId(), $comparison);
-        } elseif ($character instanceof ObjectCollection) {
+                ->addUsingAlias(QuestTableMap::COL_HERO_ID, $hero->getId(), $comparison);
+        } elseif ($hero instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(QuestTableMap::COL_CHARACTER_ID, $character->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(QuestTableMap::COL_HERO_ID, $hero->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByCharacter() only accepts arguments of type \Kantaria\Models\Character or Collection');
+            throw new PropelException('filterByHero() only accepts arguments of type \Kantaria\Models\Hero or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Character relation
+     * Adds a JOIN clause to the query using the Hero relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildQuestQuery The current query, for fluid interface
      */
-    public function joinCharacter($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinHero($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Character');
+        $relationMap = $tableMap->getRelation('Hero');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -647,14 +647,14 @@ abstract class QuestQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Character');
+            $this->addJoinObject($join, 'Hero');
         }
 
         return $this;
     }
 
     /**
-     * Use the Character relation Character object
+     * Use the Hero relation Hero object
      *
      * @see useQuery()
      *
@@ -662,13 +662,13 @@ abstract class QuestQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \Kantaria\Models\CharacterQuery A secondary query class using the current class as primary query
+     * @return \Kantaria\Models\HeroQuery A secondary query class using the current class as primary query
      */
-    public function useCharacterQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useHeroQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinCharacter($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Character', '\Kantaria\Models\CharacterQuery');
+            ->joinHero($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Hero', '\Kantaria\Models\HeroQuery');
     }
 
     /**

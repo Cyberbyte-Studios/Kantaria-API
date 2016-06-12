@@ -4,8 +4,8 @@ namespace Kantaria\Models\Base;
 
 use \Exception;
 use \PDO;
-use Kantaria\Models\Character as ChildCharacter;
-use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
+use Kantaria\Models\Hero as ChildHero;
+use Kantaria\Models\HeroQuery as ChildHeroQuery;
 use Kantaria\Models\QuestQuery as ChildQuestQuery;
 use Kantaria\Models\Map\QuestTableMap;
 use Propel\Runtime\Propel;
@@ -79,11 +79,11 @@ abstract class Quest implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the character_id field.
+     * The value for the hero_id field.
      *
      * @var        int
      */
-    protected $character_id;
+    protected $hero_id;
 
     /**
      * The value for the quest field.
@@ -128,9 +128,9 @@ abstract class Quest implements ActiveRecordInterface
     protected $task4;
 
     /**
-     * @var        ChildCharacter
+     * @var        ChildHero
      */
-    protected $aCharacter;
+    protected $aHero;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -393,13 +393,13 @@ abstract class Quest implements ActiveRecordInterface
     }
 
     /**
-     * Get the [character_id] column value.
+     * Get the [hero_id] column value.
      *
      * @return int
      */
-    public function getCharacterId()
+    public function getHeroId()
     {
-        return $this->character_id;
+        return $this->hero_id;
     }
 
     /**
@@ -483,28 +483,28 @@ abstract class Quest implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [character_id] column.
+     * Set the value of [hero_id] column.
      *
      * @param int $v new value
      * @return $this|\Kantaria\Models\Quest The current object (for fluent API support)
      */
-    public function setCharacterId($v)
+    public function setHeroId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->character_id !== $v) {
-            $this->character_id = $v;
-            $this->modifiedColumns[QuestTableMap::COL_CHARACTER_ID] = true;
+        if ($this->hero_id !== $v) {
+            $this->hero_id = $v;
+            $this->modifiedColumns[QuestTableMap::COL_HERO_ID] = true;
         }
 
-        if ($this->aCharacter !== null && $this->aCharacter->getId() !== $v) {
-            $this->aCharacter = null;
+        if ($this->aHero !== null && $this->aHero->getId() !== $v) {
+            $this->aHero = null;
         }
 
         return $this;
-    } // setCharacterId()
+    } // setHeroId()
 
     /**
      * Set the value of [quest] column.
@@ -665,8 +665,8 @@ abstract class Quest implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : QuestTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : QuestTableMap::translateFieldName('CharacterId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->character_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : QuestTableMap::translateFieldName('HeroId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->hero_id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : QuestTableMap::translateFieldName('Quest', TableMap::TYPE_PHPNAME, $indexType)];
             $this->quest = (null !== $col) ? (string) $col : null;
@@ -715,8 +715,8 @@ abstract class Quest implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aCharacter !== null && $this->character_id !== $this->aCharacter->getId()) {
-            $this->aCharacter = null;
+        if ($this->aHero !== null && $this->hero_id !== $this->aHero->getId()) {
+            $this->aHero = null;
         }
     } // ensureConsistency
 
@@ -757,7 +757,7 @@ abstract class Quest implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aCharacter = null;
+            $this->aHero = null;
         } // if (deep)
     }
 
@@ -862,11 +862,11 @@ abstract class Quest implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCharacter !== null) {
-                if ($this->aCharacter->isModified() || $this->aCharacter->isNew()) {
-                    $affectedRows += $this->aCharacter->save($con);
+            if ($this->aHero !== null) {
+                if ($this->aHero->isModified() || $this->aHero->isNew()) {
+                    $affectedRows += $this->aHero->save($con);
                 }
-                $this->setCharacter($this->aCharacter);
+                $this->setHero($this->aHero);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -909,8 +909,8 @@ abstract class Quest implements ActiveRecordInterface
         if ($this->isColumnModified(QuestTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(QuestTableMap::COL_CHARACTER_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'character_id';
+        if ($this->isColumnModified(QuestTableMap::COL_HERO_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'hero_id';
         }
         if ($this->isColumnModified(QuestTableMap::COL_QUEST)) {
             $modifiedColumns[':p' . $index++]  = 'quest';
@@ -944,8 +944,8 @@ abstract class Quest implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'character_id':
-                        $stmt->bindValue($identifier, $this->character_id, PDO::PARAM_INT);
+                    case 'hero_id':
+                        $stmt->bindValue($identifier, $this->hero_id, PDO::PARAM_INT);
                         break;
                     case 'quest':
                         $stmt->bindValue($identifier, $this->quest, PDO::PARAM_STR);
@@ -1031,7 +1031,7 @@ abstract class Quest implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCharacterId();
+                return $this->getHeroId();
                 break;
             case 2:
                 return $this->getQuest();
@@ -1082,7 +1082,7 @@ abstract class Quest implements ActiveRecordInterface
         $keys = QuestTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCharacterId(),
+            $keys[1] => $this->getHeroId(),
             $keys[2] => $this->getQuest(),
             $keys[3] => $this->getCompleted(),
             $keys[4] => $this->getTask1(),
@@ -1096,20 +1096,20 @@ abstract class Quest implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aCharacter) {
+            if (null !== $this->aHero) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'character';
+                        $key = 'hero';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'character';
+                        $key = 'hero';
                         break;
                     default:
-                        $key = 'Character';
+                        $key = 'Hero';
                 }
 
-                $result[$key] = $this->aCharacter->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aHero->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1149,7 +1149,7 @@ abstract class Quest implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCharacterId($value);
+                $this->setHeroId($value);
                 break;
             case 2:
                 $this->setQuest($value);
@@ -1199,7 +1199,7 @@ abstract class Quest implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCharacterId($arr[$keys[1]]);
+            $this->setHeroId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setQuest($arr[$keys[2]]);
@@ -1263,8 +1263,8 @@ abstract class Quest implements ActiveRecordInterface
         if ($this->isColumnModified(QuestTableMap::COL_ID)) {
             $criteria->add(QuestTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(QuestTableMap::COL_CHARACTER_ID)) {
-            $criteria->add(QuestTableMap::COL_CHARACTER_ID, $this->character_id);
+        if ($this->isColumnModified(QuestTableMap::COL_HERO_ID)) {
+            $criteria->add(QuestTableMap::COL_HERO_ID, $this->hero_id);
         }
         if ($this->isColumnModified(QuestTableMap::COL_QUEST)) {
             $criteria->add(QuestTableMap::COL_QUEST, $this->quest);
@@ -1370,7 +1370,7 @@ abstract class Quest implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCharacterId($this->getCharacterId());
+        $copyObj->setHeroId($this->getHeroId());
         $copyObj->setQuest($this->getQuest());
         $copyObj->setCompleted($this->getCompleted());
         $copyObj->setTask1($this->getTask1());
@@ -1406,24 +1406,24 @@ abstract class Quest implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildCharacter object.
+     * Declares an association between this object and a ChildHero object.
      *
-     * @param  ChildCharacter $v
+     * @param  ChildHero $v
      * @return $this|\Kantaria\Models\Quest The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setCharacter(ChildCharacter $v = null)
+    public function setHero(ChildHero $v = null)
     {
         if ($v === null) {
-            $this->setCharacterId(NULL);
+            $this->setHeroId(NULL);
         } else {
-            $this->setCharacterId($v->getId());
+            $this->setHeroId($v->getId());
         }
 
-        $this->aCharacter = $v;
+        $this->aHero = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildCharacter object, it will not be re-added.
+        // If this object has already been added to the ChildHero object, it will not be re-added.
         if ($v !== null) {
             $v->addQuest($this);
         }
@@ -1434,26 +1434,26 @@ abstract class Quest implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildCharacter object
+     * Get the associated ChildHero object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildCharacter The associated ChildCharacter object.
+     * @return ChildHero The associated ChildHero object.
      * @throws PropelException
      */
-    public function getCharacter(ConnectionInterface $con = null)
+    public function getHero(ConnectionInterface $con = null)
     {
-        if ($this->aCharacter === null && ($this->character_id !== null)) {
-            $this->aCharacter = ChildCharacterQuery::create()->findPk($this->character_id, $con);
+        if ($this->aHero === null && ($this->hero_id !== null)) {
+            $this->aHero = ChildHeroQuery::create()->findPk($this->hero_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aCharacter->addQuests($this);
+                $this->aHero->addQuests($this);
              */
         }
 
-        return $this->aCharacter;
+        return $this->aHero;
     }
 
     /**
@@ -1463,11 +1463,11 @@ abstract class Quest implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aCharacter) {
-            $this->aCharacter->removeQuest($this);
+        if (null !== $this->aHero) {
+            $this->aHero->removeQuest($this);
         }
         $this->id = null;
-        $this->character_id = null;
+        $this->hero_id = null;
         $this->quest = null;
         $this->completed = null;
         $this->task1 = null;
@@ -1494,7 +1494,7 @@ abstract class Quest implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aCharacter = null;
+        $this->aHero = null;
     }
 
     /**
@@ -1517,7 +1517,7 @@ abstract class Quest implements ActiveRecordInterface
      */
     static public function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('character_id', new NotNull());
+        $metadata->addPropertyConstraint('hero_id', new NotNull());
         $metadata->addPropertyConstraint('quest', new NotNull());
         $metadata->addPropertyConstraint('completed', new NotNull());
         $metadata->addPropertyConstraint('task1', new NotNull());
@@ -1555,9 +1555,9 @@ abstract class Quest implements ActiveRecordInterface
             // foreign key reference.
 
             // If validate() method exists, the validate-behavior is configured for related object
-            if (method_exists($this->aCharacter, 'validate')) {
-                if (!$this->aCharacter->validate($validator)) {
-                    $failureMap->addAll($this->aCharacter->getValidationFailures());
+            if (method_exists($this->aHero, 'validate')) {
+                if (!$this->aHero->validate($validator)) {
+                    $failureMap->addAll($this->aHero->getValidationFailures());
                 }
             }
 

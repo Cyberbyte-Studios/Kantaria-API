@@ -4,8 +4,8 @@ namespace Kantaria\Models\Base;
 
 use \Exception;
 use \PDO;
-use Kantaria\Models\Character as ChildCharacter;
-use Kantaria\Models\CharacterQuery as ChildCharacterQuery;
+use Kantaria\Models\Hero as ChildHero;
+use Kantaria\Models\HeroQuery as ChildHeroQuery;
 use Kantaria\Models\InventoryQuery as ChildInventoryQuery;
 use Kantaria\Models\Map\InventoryTableMap;
 use Propel\Runtime\Propel;
@@ -80,11 +80,11 @@ abstract class Inventory implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the character_id field.
+     * The value for the hero_id field.
      *
      * @var        int
      */
-    protected $character_id;
+    protected $hero_id;
 
     /**
      * The value for the slot field.
@@ -108,9 +108,9 @@ abstract class Inventory implements ActiveRecordInterface
     protected $amount;
 
     /**
-     * @var        ChildCharacter
+     * @var        ChildHero
      */
-    protected $aCharacter;
+    protected $aHero;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -373,13 +373,13 @@ abstract class Inventory implements ActiveRecordInterface
     }
 
     /**
-     * Get the [character_id] column value.
+     * Get the [hero_id] column value.
      *
      * @return int
      */
-    public function getCharacterId()
+    public function getHeroId()
     {
-        return $this->character_id;
+        return $this->hero_id;
     }
 
     /**
@@ -433,28 +433,28 @@ abstract class Inventory implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [character_id] column.
+     * Set the value of [hero_id] column.
      *
      * @param int $v new value
      * @return $this|\Kantaria\Models\Inventory The current object (for fluent API support)
      */
-    public function setCharacterId($v)
+    public function setHeroId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->character_id !== $v) {
-            $this->character_id = $v;
-            $this->modifiedColumns[InventoryTableMap::COL_CHARACTER_ID] = true;
+        if ($this->hero_id !== $v) {
+            $this->hero_id = $v;
+            $this->modifiedColumns[InventoryTableMap::COL_HERO_ID] = true;
         }
 
-        if ($this->aCharacter !== null && $this->aCharacter->getId() !== $v) {
-            $this->aCharacter = null;
+        if ($this->aHero !== null && $this->aHero->getId() !== $v) {
+            $this->aHero = null;
         }
 
         return $this;
-    } // setCharacterId()
+    } // setHeroId()
 
     /**
      * Set the value of [slot] column.
@@ -555,8 +555,8 @@ abstract class Inventory implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : InventoryTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InventoryTableMap::translateFieldName('CharacterId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->character_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : InventoryTableMap::translateFieldName('HeroId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->hero_id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : InventoryTableMap::translateFieldName('Slot', TableMap::TYPE_PHPNAME, $indexType)];
             $this->slot = (null !== $col) ? (int) $col : null;
@@ -596,8 +596,8 @@ abstract class Inventory implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aCharacter !== null && $this->character_id !== $this->aCharacter->getId()) {
-            $this->aCharacter = null;
+        if ($this->aHero !== null && $this->hero_id !== $this->aHero->getId()) {
+            $this->aHero = null;
         }
     } // ensureConsistency
 
@@ -638,7 +638,7 @@ abstract class Inventory implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aCharacter = null;
+            $this->aHero = null;
         } // if (deep)
     }
 
@@ -743,11 +743,11 @@ abstract class Inventory implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCharacter !== null) {
-                if ($this->aCharacter->isModified() || $this->aCharacter->isNew()) {
-                    $affectedRows += $this->aCharacter->save($con);
+            if ($this->aHero !== null) {
+                if ($this->aHero->isModified() || $this->aHero->isNew()) {
+                    $affectedRows += $this->aHero->save($con);
                 }
-                $this->setCharacter($this->aCharacter);
+                $this->setHero($this->aHero);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -790,8 +790,8 @@ abstract class Inventory implements ActiveRecordInterface
         if ($this->isColumnModified(InventoryTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(InventoryTableMap::COL_CHARACTER_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'character_id';
+        if ($this->isColumnModified(InventoryTableMap::COL_HERO_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'hero_id';
         }
         if ($this->isColumnModified(InventoryTableMap::COL_SLOT)) {
             $modifiedColumns[':p' . $index++]  = 'slot';
@@ -816,8 +816,8 @@ abstract class Inventory implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'character_id':
-                        $stmt->bindValue($identifier, $this->character_id, PDO::PARAM_INT);
+                    case 'hero_id':
+                        $stmt->bindValue($identifier, $this->hero_id, PDO::PARAM_INT);
                         break;
                     case 'slot':
                         $stmt->bindValue($identifier, $this->slot, PDO::PARAM_INT);
@@ -894,7 +894,7 @@ abstract class Inventory implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCharacterId();
+                return $this->getHeroId();
                 break;
             case 2:
                 return $this->getSlot();
@@ -936,7 +936,7 @@ abstract class Inventory implements ActiveRecordInterface
         $keys = InventoryTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCharacterId(),
+            $keys[1] => $this->getHeroId(),
             $keys[2] => $this->getSlot(),
             $keys[3] => $this->getItem(),
             $keys[4] => $this->getAmount(),
@@ -947,20 +947,20 @@ abstract class Inventory implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aCharacter) {
+            if (null !== $this->aHero) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'character';
+                        $key = 'hero';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'character';
+                        $key = 'hero';
                         break;
                     default:
-                        $key = 'Character';
+                        $key = 'Hero';
                 }
 
-                $result[$key] = $this->aCharacter->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aHero->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1000,7 +1000,7 @@ abstract class Inventory implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCharacterId($value);
+                $this->setHeroId($value);
                 break;
             case 2:
                 $this->setSlot($value);
@@ -1041,7 +1041,7 @@ abstract class Inventory implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCharacterId($arr[$keys[1]]);
+            $this->setHeroId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setSlot($arr[$keys[2]]);
@@ -1096,8 +1096,8 @@ abstract class Inventory implements ActiveRecordInterface
         if ($this->isColumnModified(InventoryTableMap::COL_ID)) {
             $criteria->add(InventoryTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(InventoryTableMap::COL_CHARACTER_ID)) {
-            $criteria->add(InventoryTableMap::COL_CHARACTER_ID, $this->character_id);
+        if ($this->isColumnModified(InventoryTableMap::COL_HERO_ID)) {
+            $criteria->add(InventoryTableMap::COL_HERO_ID, $this->hero_id);
         }
         if ($this->isColumnModified(InventoryTableMap::COL_SLOT)) {
             $criteria->add(InventoryTableMap::COL_SLOT, $this->slot);
@@ -1194,7 +1194,7 @@ abstract class Inventory implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCharacterId($this->getCharacterId());
+        $copyObj->setHeroId($this->getHeroId());
         $copyObj->setSlot($this->getSlot());
         $copyObj->setItem($this->getItem());
         $copyObj->setAmount($this->getAmount());
@@ -1227,24 +1227,24 @@ abstract class Inventory implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildCharacter object.
+     * Declares an association between this object and a ChildHero object.
      *
-     * @param  ChildCharacter $v
+     * @param  ChildHero $v
      * @return $this|\Kantaria\Models\Inventory The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setCharacter(ChildCharacter $v = null)
+    public function setHero(ChildHero $v = null)
     {
         if ($v === null) {
-            $this->setCharacterId(NULL);
+            $this->setHeroId(NULL);
         } else {
-            $this->setCharacterId($v->getId());
+            $this->setHeroId($v->getId());
         }
 
-        $this->aCharacter = $v;
+        $this->aHero = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildCharacter object, it will not be re-added.
+        // If this object has already been added to the ChildHero object, it will not be re-added.
         if ($v !== null) {
             $v->addInventory($this);
         }
@@ -1255,26 +1255,26 @@ abstract class Inventory implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildCharacter object
+     * Get the associated ChildHero object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildCharacter The associated ChildCharacter object.
+     * @return ChildHero The associated ChildHero object.
      * @throws PropelException
      */
-    public function getCharacter(ConnectionInterface $con = null)
+    public function getHero(ConnectionInterface $con = null)
     {
-        if ($this->aCharacter === null && ($this->character_id !== null)) {
-            $this->aCharacter = ChildCharacterQuery::create()->findPk($this->character_id, $con);
+        if ($this->aHero === null && ($this->hero_id !== null)) {
+            $this->aHero = ChildHeroQuery::create()->findPk($this->hero_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aCharacter->addInventories($this);
+                $this->aHero->addInventories($this);
              */
         }
 
-        return $this->aCharacter;
+        return $this->aHero;
     }
 
     /**
@@ -1284,11 +1284,11 @@ abstract class Inventory implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aCharacter) {
-            $this->aCharacter->removeInventory($this);
+        if (null !== $this->aHero) {
+            $this->aHero->removeInventory($this);
         }
         $this->id = null;
-        $this->character_id = null;
+        $this->hero_id = null;
         $this->slot = null;
         $this->item = null;
         $this->amount = null;
@@ -1312,7 +1312,7 @@ abstract class Inventory implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aCharacter = null;
+        $this->aHero = null;
     }
 
     /**
@@ -1335,7 +1335,7 @@ abstract class Inventory implements ActiveRecordInterface
      */
     static public function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('character_id', new NotNull());
+        $metadata->addPropertyConstraint('hero_id', new NotNull());
         $metadata->addPropertyConstraint('slot', new NotNull());
         $metadata->addPropertyConstraint('item', new NotNull());
         $metadata->addPropertyConstraint('item', new Length(array ('min' => 1,'max' => 100,)));
@@ -1371,9 +1371,9 @@ abstract class Inventory implements ActiveRecordInterface
             // foreign key reference.
 
             // If validate() method exists, the validate-behavior is configured for related object
-            if (method_exists($this->aCharacter, 'validate')) {
-                if (!$this->aCharacter->validate($validator)) {
-                    $failureMap->addAll($this->aCharacter->getValidationFailures());
+            if (method_exists($this->aHero, 'validate')) {
+                if (!$this->aHero->validate($validator)) {
+                    $failureMap->addAll($this->aHero->getValidationFailures());
                 }
             }
 
